@@ -32,10 +32,6 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	document.querySelectorAll(".loading").forEach(e => e.style.visibility = "visible");
 	document.querySelectorAll(".badge").forEach(e => e.innerText = "0");
 	
-	fetch(URL, {headers: {Authorization: email}}).then(r => {
-		if (r.status != 200) window.location.reload();
-	});
-	
 	fetchGuia(query, state, 1)
 	.then(r => {
 		if (!r || !r.items) return;
@@ -256,14 +252,20 @@ function loadConfig() {
 	document.getElementById("email").value = localStorage.getItem("email") || "";
 }
 
-function saveConfig() {
-	const cidade = document.getElementById("cidade").value;
-	const estado = document.getElementById("estado").value?.toUpperCase();
-	const _email = document.getElementById("email").value;
+async function saveConfig() {
+	const cidade = document.getElementById("cidade").value?.trim();
+	const estado = document.getElementById("estado").value?.toUpperCase()?.trim();
+	const _email = document.getElementById("email").value?.trim();
 	
 	state = estado || "";
 	city = cidade || "";
 	email = _email;
+	
+	let r = await fetch(URL, {headers: {Authorization: email}});
+	if (r.status != 200) {
+		email = "";
+		alert("Email inserido não é de um assinante!");
+	}
 	
 	localStorage.setItem("cidade", cidade);
 	localStorage.setItem("estado", estado);
