@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca Medicamentos</title>
+	<link rel="icon" href="pesquisa.ico" type="image/x-icon">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+	body {
+		padding: 15px;
+	}
+	h5 {
+		color: #00796b;
+	}
+	thead {
+		position: sticky;
+		top: 0;
+		background-color: white;
+	}
+	.tabs .indicator {
+		background-color: #80cbc4; /* teal lighten-2 */
+	}
+	.tabs .tab a:focus.active {
+		background-color: #e0f2f1; /* teal lighten-5 */
+	}
+	.loading {
+		visibility: hidden;
+		position: absolute;
+		top: 45vh;
+		left: 45vw;
+	}
+	#bula-info {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+	.fixed-config-btn {
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+		z-index: 1000;
+	}
+	.fixed-bottom-msg {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		z-index: 999;
+		background-color: white;
+	}
+	</style>
+</head>
+<body>
+	<div class="row">
+		<div class="input-field col s12">
+			<input type="text" class="validate" id="search">
+			<label for="search">Busque por nome ou código de barras</label>
+		</div>
+	
+		<div class="col s12">
+			<ul class="tabs teal lighten-5">
+				<li class="tab col s3">
+					<a class="black-text" href="#guiatab">
+						Guia
+						<span class="new badge blue" data-badge-caption="">0</span>
+					</a>
+				</li>
+				<li class="tab col s3">
+					<a class="black-text" href="#ifoodtab">
+						iFood
+						<span class="new badge blue" data-badge-caption="">0</span>
+					</a>
+				</li>
+				<li class="tab col s3">
+					<a class="black-text" href="#distribuidorastab">
+						Distribuidoras
+						<span class="new badge blue" data-badge-caption="">0</span>
+					</a>
+				</li>
+				<li class="tab col s3">
+					<a class="black-text" href="#pbmtab">
+						PBM
+						<span class="new badge blue" data-badge-caption="">0</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div id="guiatab" class="col s12">
+			<table class="striped centered">
+				<thead>
+					<tr>
+						<th>Tipo</th>
+						<th>Nome</th>
+						<th>Apresentação</th>
+						<th>Princípio Ativo</th>
+						<th>Fabricante</th>
+						<th>EAN</th>
+						<th>PF</th>
+						<th>PMC</th>
+						<th>Bula</th>
+					</tr>
+				</thead>
+				<tbody id="guia"></tbody>
+			</table>
+			
+			<div class="preloader-wrapper active loading">
+				<div class="spinner-layer spinner-teal-only">
+					<div class="circle-clipper left"><div class="circle"></div></div>
+					<div class="gap-patch"><div class="circle"></div></div>
+					<div class="circle-clipper right"><div class="circle"></div></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="ifoodtab" class="col s12">
+			<table class="striped centered">
+				<thead>
+					<tr>
+						<th>Imagem</th>
+						<th>Nome</th>
+						<th>Preço Bruto</th>
+						<th>Preço Final</th>
+						<th>Farmácia</th>
+					</tr>
+				</thead>
+				<tbody id="ifood"></tbody>
+			</table>
+			
+			<div class="preloader-wrapper active loading">
+				<div class="spinner-layer spinner-teal-only">
+					<div class="circle-clipper left"><div class="circle"></div></div>
+					<div class="gap-patch"><div class="circle"></div></div>
+					<div class="circle-clipper right"><div class="circle"></div></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="distribuidorastab" class="col s12">
+			<table class="striped centered">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Distribuidora</th>
+						<th>Estoque</th>
+						<th>Preço Nota Fiscal</th>
+						<th>Fornecedor</th>
+						<th>EAN</th>
+					</tr>
+				</thead>
+				<tbody id="distribuidoras"></tbody>
+			</table>
+			
+			<div class="preloader-wrapper active loading">
+				<div class="spinner-layer spinner-teal-only">
+					<div class="circle-clipper left"><div class="circle"></div></div>
+					<div class="gap-patch"><div class="circle"></div></div>
+					<div class="circle-clipper right"><div class="circle"></div></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="pbmtab" class="col s12">
+			<table class="striped centered">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Programa</th>
+						<th>Autorizador</th>
+						<th>Desconto</th>
+						<th>Info</th>
+						<th>Laboratório</th>
+						<th>EAN</th>
+					</tr>
+				</thead>
+				<tbody id="pbm"></tbody>
+			</table>
+			
+			<div class="preloader-wrapper active loading">
+				<div class="spinner-layer spinner-teal-only">
+					<div class="circle-clipper left"><div class="circle"></div></div>
+					<div class="gap-patch"><div class="circle"></div></div>
+					<div class="circle-clipper right"><div class="circle"></div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="bula">
+		<div class="modal-content row">
+			<h5 class="col s12 center-align" id="bula-nome"></h5>
+			
+			<div class="col s12">
+				<div id="bula-info">
+					<p><strong>Registro MS:</strong> <span id="registro_ms"></span></p>
+					<p><strong>CEST:</strong> <span id="cest"></span></p>
+					<p><strong>NCM:</strong> <span id="ncm"></span></p>
+					<p><strong>Tarja:</strong> <span id="tarja"></span></p>
+				</div>
+			</div>
+
+			<ul class="col s12 collapsible">
+				<li>
+					<div class="collapsible-header"><i class="material-icons">info_outline</i>Composição</div>
+					<div class="collapsible-body"><span id="composicao"></span></div>
+				</li>
+				<li>
+					<div class="collapsible-header"><i class="material-icons">assignment</i>Indicação</div>
+					<div class="collapsible-body"><span id="indicacao"></span></div>
+				</li>
+				<li>
+					<div class="collapsible-header"><i class="material-icons">healing</i>Posologia</div>
+					<div class="collapsible-body"><span id="posologia"></span></div>
+				</li>
+				<li>
+					<div class="collapsible-header"><i class="material-icons">science</i>Mecanismo de Ação</div>
+					<div class="collapsible-body"><span id="acao"></span></div>
+				</li>
+				<li>
+					<div class="collapsible-header"><i class="material-icons">store</i>Armazenamento</div>
+					<div class="collapsible-body"><span id="armazenamento"></span></div>
+				</li>
+			</ul>
+
+			<div class="col s12 center-align">
+				<a href="#" class="btn blue waves-effect waves-light" target="_blank" id="pdf"><i class="material-icons left">picture_as_pdf</i>Ver Bula Completa (PDF)</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal" id="config">
+		<div class="modal-content row">
+			<h5>Configurações</h5>
+			<div class="col s10 input-field">
+				<input placeholder="" id="cidade" type="text">
+				<label for="cidade">Cidade</label>
+			</div>
+			<div class="col s2 input-field" style="max-height: 200px;">
+				<input placeholder="" id="estado" type="text">
+				<label for="estado">Estado (Sigla)</label>
+			</div>
+			<div class="col s10 input-field">
+				<input placeholder="" id="email" type="text">
+				<label for="email">Email</label>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="modal-close waves-effect waves-green btn" onclick="saveConfig()">Salvar</button>
+		</div>
+	</div>
+	
+	<div class="fixed-config-btn">
+		<a class="btn-floating btn-large waves-effect waves-light teal modal-trigger" href="#config" onclick="loadConfig()">
+			<i class="large material-icons">settings</i>
+		</a>
+	</div>
+	
+	<div id="sincronizacao" class="fixed-bottom-msg" style="visibility: hidden;">
+		<div class="progress teal lighten-5" style="margin: 0;">
+			<div class="indeterminate teal"></div>
+		</div>
+		<div class="center-align" style="padding: 5px 0;">
+			<span class="grey-text text-darken-2" style="font-size: 0.9em;">Sincronizando dados de distribuidoras e PBM...</span>
+		</div>
+	</div>
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="pesquisa.js"></script>
+</body>
+</html>
