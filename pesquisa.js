@@ -32,7 +32,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	document.querySelectorAll(".loading").forEach(e => e.style.visibility = "visible");
 	document.querySelectorAll(".badge").forEach(e => e.innerText = "0");
 	
-	fetch(url).then(r => {
+	fetch(URL).then(r => {
 		if (r.status != 200) window.location.reload();
 	});
 	
