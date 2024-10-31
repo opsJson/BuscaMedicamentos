@@ -102,6 +102,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 });
 
 async function generate() {
+	if (!email) return;
 	if (localStorage.getItem("last") == getCurrentDate()) return;
 	
 	document.getElementById("sincronizacao").style.visibility = "visible";
