@@ -242,6 +242,10 @@ async function placeBula(id_apresentacao, nome, apresentacao) {
 	document.getElementById("registro_ms").innerText = r.registro_ms;
 }
 
+function onConfigClick() {
+	document.getElementById("not-subscriber-overlay").style.display = "flex";
+}
+
 function loadConfig() {
 	state = localStorage.getItem("estado") || "SP";
 	city = localStorage.getItem("cidade") || "São Paulo";
@@ -249,7 +253,11 @@ function loadConfig() {
 	
 	document.getElementById("estado").value = state;
 	document.getElementById("cidade").value = city;
-	document.getElementById("email").value = localStorage.getItem("email") || "";
+	document.getElementById("email").value = email;
+	
+	if (!email) {
+		document.getElementById("not-subscriber-overlay").style.display = "flex";
+	}
 }
 
 async function saveConfig() {
@@ -270,6 +278,7 @@ async function saveConfig() {
 	localStorage.setItem("cidade", cidade);
 	localStorage.setItem("estado", estado);
 	localStorage.setItem("email", email);
+	document.getElementById("not-subscriber-overlay").style.display = "none";
 	
 	generate();
 }

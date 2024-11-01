@@ -50,6 +50,18 @@
 		z-index: 999;
 		background-color: white;
 	}
+	.not-subscriber-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5); /* fundo semi-transparente */
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* garante que fique no topo */
+    }
 	</style>
 </head>
 <body>
@@ -230,30 +242,8 @@
 		</div>
 	</div>
 	
-	<div class="modal" id="config">
-		<div class="modal-content row">
-			<h5>Configurações</h5>
-			<div class="col s10 input-field">
-				<input placeholder="" id="cidade" type="text">
-				<label for="cidade">Cidade</label>
-			</div>
-			<div class="col s2 input-field" style="max-height: 200px;">
-				<input placeholder="" id="estado" type="text">
-				<label for="estado">Estado (Sigla)</label>
-			</div>
-			<div class="col s10 input-field">
-				<input placeholder="" id="email" type="text">
-				<label for="email">Email</label>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<a target="_blank" rel="noopener noreferrer" href="https://pay.kiwify.com.br/b1JutX5" class="modal-close waves-effect waves-green btn blue">Assinar</a>
-			<button class="modal-close waves-effect waves-green btn" onclick="saveConfig()">Salvar</button>
-		</div>
-	</div>
-	
 	<div class="fixed-config-btn">
-		<a class="btn-floating btn-large waves-effect waves-light teal modal-trigger" href="#config" onclick="loadConfig()">
+		<a class="btn-floating btn-large waves-effect waves-light teal" onclick="onConfigClick()">
 			<i class="large material-icons">settings</i>
 		</a>
 	</div>
@@ -266,6 +256,29 @@
 			<span class="grey-text text-darken-2" style="font-size: 0.9em;">Sincronizando dados de distribuidoras e PBM... (Resultados dessas abas podem não aparecer enquanto o processo não termina)</span>
 		</div>
 	</div>
+	
+	<div id="not-subscriber-overlay" class="not-subscriber-overlay">
+        <div class="card-panel white" style="max-width: 500px; text-align: center;">
+            <h5>Bem-vindo ao Busca Medicamentos</h5>
+            <!-- Campos de entrada -->
+            <div class="row">
+                <div class="input-field col s8">
+                    <input id="cidade" type="text">
+                    <label for="cidade">Cidade</label>
+                </div>
+                <div class="input-field col s4">
+                    <input id="estado" type="text">
+                    <label for="estado">Estado (Sigla)</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="email" type="email">
+                    <label for="email">Email</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" onclick="saveConfig()">Salvar</button>
+			<a class="blue btn waves-effect waves-light" href="https://pay.kiwify.com.br/b1JutX5" target="_blank" rel="noopener noreferrer">Assinar</a>
+        </div>
+    </div>
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="pesquisa.js"></script>
