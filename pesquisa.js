@@ -9,8 +9,8 @@ generate();
 
 M.FormSelect.init(document.querySelectorAll("select"));
 M.Tabs.init(document.querySelectorAll(".tabs"));
-M.Modal.init(document.querySelectorAll("#bula"));
-M.Modal.init(document.querySelectorAll("#config"));
+M.Modal.init(document.querySelectorAll("#bula"), {inDuration: 0, outDuration: 0});
+M.Modal.init(document.querySelectorAll("#config"), {inDuration: 0, outDuration: 0});
 M.Collapsible.init(document.querySelectorAll(".collapsible"));
 
 document.getElementById("search").focus();
@@ -23,7 +23,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	if (query == lastQuery) return;
 	if (localStorage.getItem("n") >= 5) {
 		alert("Você atingiu o limite de 5 pesquisas diárias, para pesquisar mais, por favor, considere comprar uma assinatura");
-		document.getElementById("config").style.display = "flex";
+		M.Modal.getInstance(document.querySelector("#config")).open();
 		return;
 	}
 	
