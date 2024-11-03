@@ -36,32 +36,12 @@
 		flex-direction: row;
 		justify-content: space-around;
 	}
-	.fixed-config-btn {
+	#fixed-config-btn {
 		position: fixed;
 		bottom: 20px;
 		right: 20px;
 		z-index: 1000;
 	}
-	.fixed-bottom-msg {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		z-index: 999;
-		background-color: white;
-	}
-	.not-subscriber-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5); /* fundo semi-transparente */
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999; /* garante que fique no topo */
-    }
 	</style>
 </head>
 <body>
@@ -242,25 +222,9 @@
 		</div>
 	</div>
 	
-	<div class="fixed-config-btn">
-		<a class="btn-floating btn-large waves-effect waves-light teal" onclick="onConfigClick()">
-			<i class="large material-icons">settings</i>
-		</a>
-	</div>
-	
-	<div id="sincronizacao" class="fixed-bottom-msg" style="visibility: hidden;">
-		<div class="progress teal lighten-5" style="margin: 0;">
-			<div class="indeterminate teal"></div>
-		</div>
-		<div class="center-align" style="padding: 5px 0;">
-			<span class="grey-text text-darken-2" style="font-size: 0.9em;">Sincronizando dados de distribuidoras e PBM... (Resultados dessas abas podem não aparecer enquanto o processo não termina)</span>
-		</div>
-	</div>
-	
-	<div id="not-subscriber-overlay" class="not-subscriber-overlay">
-        <div class="card-panel white" style="max-width: 500px; text-align: center;">
-            <h5>Bem-vindo ao Busca Medicamentos</h5>
-            <!-- Campos de entrada -->
+	<div class="modal" id="config">
+		<div class="modal-content row">
+			<h5>Bem-vindo ao Busca Medicamentos</h5>
             <div class="row">
                 <div class="input-field col s8">
                     <input id="cidade" type="text">
@@ -274,11 +238,28 @@
                     <input id="email" type="email">
                     <label for="email">Email</label>
                 </div>
+				<div class="modal-footer">
+					<button class="btn waves-effect waves-light modal-close" href="#">Salvar</button>
+					<a class="blue btn waves-effect waves-light" href="https://pay.kiwify.com.br/b1JutX5" target="_blank" rel="noopener noreferrer">Assinar</a>
+				</div>
             </div>
-            <button class="btn waves-effect waves-light" onclick="saveConfig()">Salvar</button>
-			<a class="blue btn waves-effect waves-light" href="https://pay.kiwify.com.br/b1JutX5" target="_blank" rel="noopener noreferrer">Assinar</a>
-        </div>
-    </div>
+		</div>
+	</div>
+	
+	<div id="fixed-config-btn">
+		<a class="btn-floating btn-large waves-effect waves-light teal modal-trigger" href="#config">
+			<i class="large material-icons">settings</i>
+		</a>
+	</div>
+	
+	<div id="sincronizacao" class="fixed-bottom-msg" style="visibility: hidden;">
+		<div class="progress teal lighten-5" style="margin: 0;">
+			<div class="indeterminate teal"></div>
+		</div>
+		<div class="center-align" style="padding: 5px 0;">
+			<span class="grey-text text-darken-2" style="font-size: 0.9em;">Sincronizando dados de distribuidoras e PBM... (Resultados dessas abas podem não aparecer enquanto o processo não termina)</span>
+		</div>
+	</div>
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="pesquisa.js"></script>

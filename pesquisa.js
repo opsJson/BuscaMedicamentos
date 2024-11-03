@@ -4,6 +4,7 @@ let lastQuery;
 let email;
 
 loadConfig();
+validate();
 generate();
 
 M.FormSelect.init(document.querySelectorAll("select"));
@@ -13,19 +14,20 @@ M.Modal.init(document.querySelectorAll("#config"));
 M.Collapsible.init(document.querySelectorAll(".collapsible"));
 
 document.getElementById("search").focus();
-document.getElementById("search").addEventListener("focus", function (event) {
-	event.target.select();
-});
+document.getElementById("search").addEventListener("focus", event => event.target.select());
 document.getElementById("search").addEventListener("keydown", async function (event) {
 	if (event.key != "Enter") return;
-	if (!email) {
-		alert("Insira um email de assinante nas configurações primeiro!")
-		return;
-	}
 	
 	const query = this.value.trim();
 	if (!query) return;
 	if (query == lastQuery) return;
+	if (localStorage.getItem("n") >= 5) {
+		alert("Você atingiu o limite de 5 pesquisas diárias, para pesquisar mais, por favor, considere comprar uma assinatura");
+		document.getElementById("config").style.display = "flex";
+		return;
+	}
+	
+	localStorage.setItem("n", Number(localStorage.getItem("n")) + 1);
 	lastQuery = query;
 	
 	document.querySelectorAll("tbody").forEach(e => Array.from(e.children).forEach(e => e.remove()));
@@ -46,8 +48,8 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	fetch(`${URL}/ifood?q=${query}&city=${city}, ${state}`, {headers: {Authorization: email}})
 	.then(r => r.json())
 	.then(r => {
-		if (!r || !r.length) return;
 		document.querySelector("#ifoodtab .loading").style.visibility = "hidden";
+		if (!r || !r.length) return;
 		
 		r.forEach(e => {
 			const tr = document.createElement("tr");
@@ -102,8 +104,8 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 });
 
 async function generate() {
-	if (!email) return;
 	if (localStorage.getItem("last") == getCurrentDate()) return;
+	localStorage.setItem("n", 0);
 	
 	document.getElementById("sincronizacao").style.visibility = "visible";
 	let r = await fetch(`${URL}/generate`, {headers: {Authorization: email}});
@@ -242,10 +244,6 @@ async function placeBula(id_apresentacao, nome, apresentacao) {
 	document.getElementById("registro_ms").innerText = r.registro_ms;
 }
 
-function onConfigClick() {
-	document.getElementById("not-subscriber-overlay").style.display = "flex";
-}
-
 function loadConfig() {
 	state = localStorage.getItem("estado") || "SP";
 	city = localStorage.getItem("cidade") || "São Paulo";
@@ -254,33 +252,27 @@ function loadConfig() {
 	document.getElementById("estado").value = state;
 	document.getElementById("cidade").value = city;
 	document.getElementById("email").value = email;
-	
-	if (!email) {
-		document.getElementById("not-subscriber-overlay").style.display = "flex";
-	}
 }
 
 async function saveConfig() {
-	const cidade = document.getElementById("cidade").value?.trim();
-	const estado = document.getElementById("estado").value?.toUpperCase()?.trim();
-	const _email = document.getElementById("email").value?.trim();
+	const city = document.getElementById("cidade").value?.trim() || "";
+	const state = document.getElementById("estado").value?.toUpperCase()?.trim() || "";
+	const email = document.getElementById("email").value?.trim() || "";
 	
-	state = estado || "";
-	city = cidade || "";
-	email = _email;
+	validate();
 	
-	let r = await fetch(URL, {headers: {Authorization: email}});
-	if (r.status != 200) {
-		email = "";
-		alert("Email inserido não é de um assinante!");
-	}
-	
-	localStorage.setItem("cidade", cidade);
-	localStorage.setItem("estado", estado);
+	localStorage.setItem("cidade", city);
+	localStorage.setItem("estado", state);
 	localStorage.setItem("email", email);
-	document.getElementById("not-subscriber-overlay").style.display = "none";
-	
-	generate();
+	document.getElementById("config").style.display = "none";
+}
+
+function validate() {
+	fetch(`${URL}/validate`, {headers: {Authorization: email}})
+	.then(r => {
+		if (r.status != 200) return;
+		localStorage.setItem("n", -9999999999);
+	});
 }
 
 function getCurrentDate() {
