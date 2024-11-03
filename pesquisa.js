@@ -255,9 +255,9 @@ function loadConfig() {
 }
 
 async function saveConfig() {
-	const city = document.getElementById("cidade").value?.trim() || "";
-	const state = document.getElementById("estado").value?.toUpperCase()?.trim() || "";
-	const email = document.getElementById("email").value?.trim() || "";
+	city = document.getElementById("cidade").value?.trim() || "";
+	state = document.getElementById("estado").value?.toUpperCase()?.trim() || "";
+	email = document.getElementById("email").value?.trim() || "";
 	
 	validate();
 	
