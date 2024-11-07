@@ -21,8 +21,8 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	const query = this.value.trim();
 	if (!query) return;
 	if (query == lastQuery) return;
-	if (localStorage.getItem("n") >= 10) {
-		alert("Você atingiu o limite de 10 pesquisas diárias, para pesquisar mais, por favor, considere comprar uma assinatura");
+	if (localStorage.getItem("n") >= 5) {
+		alert("Você atingiu o limite de 5 pesquisas diárias, para pesquisar mais, por favor, considere comprar uma assinatura");
 		M.Modal.getInstance(document.querySelector("#config")).open();
 		return;
 	}
