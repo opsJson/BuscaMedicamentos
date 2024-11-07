@@ -272,6 +272,9 @@ function validate() {
 	.then(r => {
 		if (r.status != 200) return;
 		localStorage.setItem("n", -9999999999);
+	})
+	.catch(e => {
+		if (localStorage.getItem("n") < 0) localStorage.setItem("n", 0);
 	});
 }
 
