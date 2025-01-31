@@ -114,7 +114,9 @@ async function generate() {
 	]);
 	
 	for (const key in r) {
-		r[key].forEach(value => setIndexedDB("BuscaMedicamentos", key, value));
+		for (const value of r[key]) {
+			await setIndexedDB("BuscaMedicamentos", key, value);
+		}
 	}
 	
 	localStorage.setItem("last", getCurrentDate());
