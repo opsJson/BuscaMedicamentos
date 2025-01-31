@@ -64,43 +64,34 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 		});
 	});
 	
-	JSON.parse(localStorage.getItem("profarma") || "[]")
-	.forEach(produto => {
-		document.querySelector("#distribuidorastab .loading").style.visibility = "hidden";
-		
-		if (produto.nome?.toUpperCase().indexOf(query.toUpperCase()) != -1) {
-			const tr = document.createElement("tr");
-			tr.innerHTML = `<td>${produto.nome}</td>
-							<td>PROFARMA</td>
-							<td>${produto.estoque}</td>
-							<td>R$${produto.preco_nf}</td>
-							<td>${produto.fornecedor}</td>
-							<td>${produto.ean}</td>`;
-			document.getElementById("distribuidoras").appendChild(tr);
-		}
-		
-		document.querySelector("[href='#distribuidorastab'] span").innerText = document.getElementById("distribuidoras").children.length;
+	const profarmaResults = await getIndexedDB("BuscaMedicamentos", "profarma", query);
+	document.querySelector("#distribuidorastab .loading").style.visibility = "hidden";
+	profarmaResults.forEach(profarmaResult => {
+		const tr = document.createElement("tr");
+		tr.innerHTML = `<td>${profarmaResult.nome}</td>
+						<td>PROFARMA</td>
+						<td>${profarmaResult.estoque}</td>
+						<td>R$${profarmaResult.preco_nf}</td>
+						<td>${profarmaResult.fornecedor}</td>
+						<td>${profarmaResult.ean}</td>`;
+		document.getElementById("distribuidoras").appendChild(tr);
 	});
+	document.querySelector("[href='#distribuidorastab'] span").innerText = document.getElementById("distribuidoras").children.length;
 	
-	JSON.parse(localStorage.getItem("pbm") || "[]")
-	.forEach(produto => {
-		document.querySelector("#pbmtab .loading").style.visibility = "hidden";
-		
-		const values = Object.values(produto);
-		if (values.filter(e => e?.toUpperCase().indexOf(query.toUpperCase()) != -1).length > 0) {
+	const pbmResults = await getIndexedDB("BuscaMedicamentos", "pbm", query);
+	document.querySelector("#pbmtab .loading").style.visibility = "hidden";
+	pbmResults.forEach(pbmResult => {
 			const tr = document.createElement("tr");
-			tr.innerHTML = `<td>${produto.nome}</td>
-							<td>${produto.programa}</td>
-							<td>${produto.autorizador}</td>
-							<td>${produto.desconto}</td>
-							<td>${produto.info}</td>
-							<td>${produto.laboratorio}</td>
-							<td>${produto.ean}</td>`;
-			document.getElementById("pbm").appendChild(tr);
-		}
-		
-		document.querySelector("[href='#pbmtab'] span").innerText = document.getElementById("pbm").children.length;
+		tr.innerHTML = `<td>${pbmResult.nome}</td>
+						<td>${pbmResult.programa}</td>
+						<td>${pbmResult.autorizador}</td>
+						<td>${pbmResult.desconto}</td>
+						<td>${pbmResult.info}</td>
+						<td>${pbmResult.laboratorio}</td>
+						<td>${pbmResult.ean}</td>`;
+		document.getElementById("pbm").appendChild(tr);
 	});
+	document.querySelector("[href='#pbmtab'] span").innerText = document.getElementById("pbm").children.length;
 });
 
 async function generate() {
@@ -116,8 +107,16 @@ async function generate() {
 	}
 	r = await r.json();
 	
-	localStorage.setItem("pbm", JSON.stringify(r.pbmResult));
-	localStorage.setItem("profarma", JSON.stringify(r.profarmaResult));
+	await createIndexedDB("BuscaMedicamentos", 1, [
+		{name: "profarma", keyPath: "ean"},
+		{name: "santacruz", keyPath: "ean"},
+		{name: "pbm", keyPath: "ean"},
+	]);
+	
+	for (const key in r) {
+		r[key].forEach(value => setIndexedDB("BuscaMedicamentos", key, value));
+	}
+	
 	localStorage.setItem("last", getCurrentDate());
 	document.getElementById("sincronizacao").style.visibility = "hidden";
 }
@@ -284,4 +283,105 @@ function getCurrentDate() {
 	const month = String(today.getMonth() + 1).padStart(2, '0');
 	const day = String(today.getDate()).padStart(2, '0');
 	return `${year}-${month}-${day}`;
+}
+
+function createIndexedDB(database, version, tables) {
+	return new Promise((resolve, reject) => {
+		const dbRequest = window.indexedDB.open(database, version);
+		
+        dbRequest.onupgradeneeded = (event) => {
+            const db = event.target.result;
+			
+            tables.forEach((table) => {
+                if (!db.objectStoreNames.contains(table.name)) {
+                    db.createObjectStore(table.name, { keyPath: table.keyPath || "id" });
+                }
+            });
+        };
+		
+        dbRequest.onsuccess = (event) => {
+            resolve(true);
+        };
+		
+        dbRequest.onerror = (event) => {
+            reject(`Erro ao criar o banco de dados: ${event.target.error}`);
+        };
+	});
+}	
+
+function getIndexedDB(database, table, key) {
+	return new Promise((resolve, reject) => {
+		const dbRequest = window.indexedDB.open(database);
+		
+		dbRequest.onsuccess = (event) => {
+			const db = event.target.result;
+			const transaction = db.transaction(table, "readonly");
+			const objectStore = transaction.objectStore(table);
+			const getRequest = objectStore.get(key);
+			
+			getRequest.onsuccess = (event) => {
+				const result = event.target.result;
+				
+				if (!result) {
+					const cursorRequest = objectStore.openCursor();
+					const results = [];
+					
+					cursorRequest.onsuccess = (event) => {
+						const cursor = event.target?.result;
+						if (!cursor) {
+							resolve(results);
+							return;
+						}
+						
+						const produto = cursor.value;
+						
+						if (produto.nome.toUpperCase().includes(key.toUpperCase())) {
+							results.push(produto);
+						}
+						
+						cursor.continue();
+					};
+					
+					cursorRequest.onerror = (event) => {
+						resolve(null);
+					};
+				}
+				else {
+					resolve(result);
+				}
+			};
+			
+			getRequest.onerror = (event) => {
+				resolve(null);
+			};
+		};
+		
+		dbRequest.onerror = (event) => {
+			resolve(null);
+		};
+	});
+}
+
+function setIndexedDB(database, table, object) {
+	return new Promise((resolve, reject) => {
+		const dbRequest = window.indexedDB.open(database);
+		
+		dbRequest.onsuccess = (event) => {
+			const db = event.target.result;
+			const transaction = db.transaction(table, "readwrite");
+			const objectStore = transaction.objectStore(table);
+			const putRequest = objectStore.put(object);
+			
+			putRequest.onsuccess = (event) => {
+				resolve(true);
+			};
+			putRequest.onerror = (event) => {
+				resolve(false);
+			};
+		};
+		
+		dbRequest.onerror = (event) => {
+			resolve(null);
+		};
+	});
 }
