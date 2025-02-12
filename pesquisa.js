@@ -81,6 +81,9 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 		document.querySelector("#distribuidorastab .loading").style.visibility = "hidden";
 		if (!r || !r.length) return;
 		
+		r.sort((a, b) => a.preco_nf - b.preco_nf);
+		r = r.filter(e => e.estoque != "NÃO" && e.estoque > 0);
+		
 		r.forEach(e => {
 			const tr = document.createElement("tr");
 			tr.innerHTML = `<td>${e.nome}</td>
