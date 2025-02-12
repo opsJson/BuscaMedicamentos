@@ -140,6 +140,7 @@
 						<th>Preço Nota Fiscal</th>
 						<th>Fornecedor</th>
 						<th>EAN</th>
+						<th>Validade</th>
 					</tr>
 				</thead>
 				<tbody id="distribuidoras"></tbody>
@@ -235,12 +236,11 @@
                     <label for="estado">Estado (Sigla)</label>
                 </div>
                 <div class="input-field col s12">
-                    <input id="email" type="email">
-                    <label for="email">Email</label>
+                    <input id="licenca" type="text">
+                    <label for="licenca">Licença</label>
                 </div>
 				<div class="modal-footer">
 					<button class="btn waves-effect waves-light modal-close" href="#" onclick="saveConfig()">Salvar</button>
-					<a class="blue btn waves-effect waves-light" href="https://pay.kiwify.com.br/DPK7uoD" target="_blank" rel="noopener noreferrer">Assinar</a>
 				</div>
             </div>
 		</div>
@@ -250,15 +250,6 @@
 		<a class="btn-floating btn-large waves-effect waves-light teal modal-trigger" href="#config">
 			<i class="large material-icons">settings</i>
 		</a>
-	</div>
-	
-	<div id="sincronizacao" class="fixed-bottom-msg" style="visibility: hidden;">
-		<div class="progress teal lighten-5" style="margin: 0;">
-			<div class="indeterminate teal"></div>
-		</div>
-		<div class="center-align" style="padding: 5px 0;">
-			<span class="grey-text text-darken-2" style="font-size: 0.9em;">Sincronizando dados de distribuidoras e PBM... (Resultados dessas abas podem não aparecer enquanto o processo não termina)</span>
-		</div>
 	</div>
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

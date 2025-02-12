@@ -1,11 +1,9 @@
 const URL = "https://cbr3emmw65uv2uzbjcfknv4iny0nuiul.lambda-url.sa-east-1.on.aws";
 let state, city;
 let lastQuery;
-let email;
+let licenca;
 
 loadConfig();
-validate();
-generate();
 
 M.FormSelect.init(document.querySelectorAll("select"));
 M.Tabs.init(document.querySelectorAll(".tabs"));
@@ -21,13 +19,6 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	const query = this.value.trim();
 	if (!query) return;
 	if (query == lastQuery) return;
-	if (localStorage.getItem("n") >= 3) {
-		alert("Você atingiu o limite de 3 pesquisas diárias, para pesquisar mais, por favor, considere comprar uma assinatura");
-		M.Modal.getInstance(document.querySelector("#config")).open();
-		return;
-	}
-	
-	localStorage.setItem("n", Number(localStorage.getItem("n")) + 1);
 	lastQuery = query;
 	
 	document.querySelectorAll("tbody").forEach(e => Array.from(e.children).forEach(e => e.remove()));
@@ -45,7 +36,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 		}
 	});
 	
-	fetch(`${URL}/ifood?q=${query}&city=${city}, ${state}`, {headers: {Authorization: email}})
+	fetch(`${URL}/ifood?q=${query}&city=${city}, ${state}`, {headers: {Authorization: licenca}})
 	.then(r => r.json())
 	.then(r => {
 		document.querySelector("#ifoodtab .loading").style.visibility = "hidden";
@@ -64,64 +55,46 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 		});
 	});
 	
-	const profarmaResults = await getIndexedDB("BuscaMedicamentos", "profarma", query);
-	document.querySelector("#distribuidorastab .loading").style.visibility = "hidden";
-	profarmaResults.forEach(profarmaResult => {
-		const tr = document.createElement("tr");
-		tr.innerHTML = `<td>${profarmaResult.nome}</td>
-						<td>PROFARMA</td>
-						<td>${profarmaResult.estoque}</td>
-						<td>R$${profarmaResult.preco_nf}</td>
-						<td>${profarmaResult.fornecedor}</td>
-						<td>${profarmaResult.ean}</td>`;
-		document.getElementById("distribuidoras").appendChild(tr);
-	});
-	document.querySelector("[href='#distribuidorastab'] span").innerText = document.getElementById("distribuidoras").children.length;
-	
-	const pbmResults = await getIndexedDB("BuscaMedicamentos", "pbm", query);
-	document.querySelector("#pbmtab .loading").style.visibility = "hidden";
-	pbmResults.forEach(pbmResult => {
+	fetch(`${URL}/pbm?q=${query}`, {headers: {Authorization: licenca}})
+	.then(r => r.json())
+	.then(r => {
+		document.querySelector("#pbmtab .loading").style.visibility = "hidden";
+		if (!r || !r.length) return;
+		
+		r.forEach(e => {
 			const tr = document.createElement("tr");
-		tr.innerHTML = `<td>${pbmResult.nome}</td>
-						<td>${pbmResult.programa}</td>
-						<td>${pbmResult.autorizador}</td>
-						<td>${pbmResult.desconto}</td>
-						<td>${pbmResult.info}</td>
-						<td>${pbmResult.laboratorio}</td>
-						<td>${pbmResult.ean}</td>`;
-		document.getElementById("pbm").appendChild(tr);
+			tr.innerHTML = `<td>${e.nome}</td>
+							<td>${e.programa}</td>
+							<td>${e.autorizador}</td>
+							<td>${e.desconto}</td>
+							<td>${e.info}</td>
+							<td>${e.laboratorio}</td>
+							<td>${e.ean}</td>`;
+			document.getElementById("pbm").appendChild(tr);
+		});
+		document.querySelector("[href='#pbmtab'] span").innerText = document.getElementById("pbm").children.length;
 	});
-	document.querySelector("[href='#pbmtab'] span").innerText = document.getElementById("pbm").children.length;
+	
+	fetch(`${URL}/distribuidoras?q=${query}`, {headers: {Authorization: licenca}})
+	.then(r => r.json())
+	.then(r => {
+		document.querySelector("#distribuidorastab .loading").style.visibility = "hidden";
+		if (!r || !r.length) return;
+		
+		r.forEach(e => {
+			const tr = document.createElement("tr");
+			tr.innerHTML = `<td>${e.nome}</td>
+							<td>${e.distribuidora}</td>
+							<td>${e.estoque}</td>
+							<td>R$${e.preco_nf}</td>
+							<td>${e.fornecedor}</td>
+							<td>${e.ean}</td>
+							<td>${e.validade || ""}</td>`;
+			document.getElementById("distribuidoras").appendChild(tr);
+		});
+		document.querySelector("[href='#distribuidorastab'] span").innerText = document.getElementById("distribuidoras").children.length;
+	});
 });
-
-async function generate() {
-	if (localStorage.getItem("last") == getCurrentDate()) return;
-	localStorage.setItem("n", 0);
-	
-	document.getElementById("sincronizacao").style.visibility = "visible";
-	let r = await fetch(`${URL}/generate`, {headers: {Authorization: email}});
-	if (r.status != 200) {
-		document.getElementById("sincronizacao").style.visibility = "hidden";
-		console.log(await r.text());
-		return;
-	}
-	r = await r.json();
-	
-	await createIndexedDB("BuscaMedicamentos", 1, [
-		{name: "profarma", keyPath: "ean"},
-		{name: "santacruz", keyPath: "ean"},
-		{name: "pbm", keyPath: "ean"},
-	]);
-	
-	for (const key in r) {
-		for (const value of r[key]) {
-			await setIndexedDB("BuscaMedicamentos", key, value);
-		}
-	}
-	
-	localStorage.setItem("last", getCurrentDate());
-	document.getElementById("sincronizacao").style.visibility = "hidden";
-}
 
 async function fetchGuia(query, state, p) {
 	try {
@@ -248,142 +221,20 @@ async function placeBula(id_apresentacao, nome, apresentacao) {
 function loadConfig() {
 	state = localStorage.getItem("estado") || "SP";
 	city = localStorage.getItem("cidade") || "São Paulo";
-	email = localStorage.getItem("email") || "";
+	licenca = localStorage.getItem("licenca") || "";
 	
 	document.getElementById("estado").value = state;
 	document.getElementById("cidade").value = city;
-	document.getElementById("email").value = email;
+	document.getElementById("licenca").value = licenca;
 }
 
 async function saveConfig() {
 	city = document.getElementById("cidade").value?.trim() || "";
 	state = document.getElementById("estado").value?.toUpperCase()?.trim() || "";
-	email = document.getElementById("email").value?.trim() || "";
-	
-	validate();
+	licenca = document.getElementById("licenca").value?.trim() || "";
 	
 	localStorage.setItem("cidade", city);
 	localStorage.setItem("estado", state);
-	localStorage.setItem("email", email);
+	localStorage.setItem("licenca", licenca);
 	document.getElementById("config").style.display = "none";
-}
-
-function validate() {
-	fetch(`${URL}/validate`, {headers: {Authorization: email}})
-	.then(r => {
-		if (r.status != 200) return;
-		localStorage.setItem("n", -9999999999);
-	})
-	.catch(e => {
-		if (localStorage.getItem("n") < 0) localStorage.setItem("n", 0);
-	});
-}
-
-function getCurrentDate() {
-	const today = new Date();
-	const year = today.getFullYear();
-	const month = String(today.getMonth() + 1).padStart(2, '0');
-	const day = String(today.getDate()).padStart(2, '0');
-	return `${year}-${month}-${day}`;
-}
-
-function createIndexedDB(database, version, tables) {
-	return new Promise((resolve, reject) => {
-		const dbRequest = window.indexedDB.open(database, version);
-		
-        dbRequest.onupgradeneeded = (event) => {
-            const db = event.target.result;
-			
-            tables.forEach((table) => {
-                if (!db.objectStoreNames.contains(table.name)) {
-                    db.createObjectStore(table.name, { keyPath: table.keyPath || "id" });
-                }
-            });
-        };
-		
-        dbRequest.onsuccess = (event) => {
-            resolve(true);
-        };
-		
-        dbRequest.onerror = (event) => {
-            reject(`Erro ao criar o banco de dados: ${event.target.error}`);
-        };
-	});
-}	
-
-function getIndexedDB(database, table, key) {
-	return new Promise((resolve, reject) => {
-		const dbRequest = window.indexedDB.open(database);
-		
-		dbRequest.onsuccess = (event) => {
-			const db = event.target.result;
-			const transaction = db.transaction(table, "readonly");
-			const objectStore = transaction.objectStore(table);
-			const getRequest = objectStore.get(key);
-			
-			getRequest.onsuccess = (event) => {
-				const result = event.target.result;
-				
-				if (!result) {
-					const cursorRequest = objectStore.openCursor();
-					const results = [];
-					
-					cursorRequest.onsuccess = (event) => {
-						const cursor = event.target?.result;
-						if (!cursor) {
-							resolve(results);
-							return;
-						}
-						
-						const produto = cursor.value;
-						
-						if (produto.nome.toUpperCase().includes(key.toUpperCase())) {
-							results.push(produto);
-						}
-						
-						cursor.continue();
-					};
-					
-					cursorRequest.onerror = (event) => {
-						resolve(null);
-					};
-				}
-				else {
-					resolve(result);
-				}
-			};
-			
-			getRequest.onerror = (event) => {
-				resolve(null);
-			};
-		};
-		
-		dbRequest.onerror = (event) => {
-			resolve(null);
-		};
-	});
-}
-
-function setIndexedDB(database, table, object) {
-	return new Promise((resolve, reject) => {
-		const dbRequest = window.indexedDB.open(database);
-		
-		dbRequest.onsuccess = (event) => {
-			const db = event.target.result;
-			const transaction = db.transaction(table, "readwrite");
-			const objectStore = transaction.objectStore(table);
-			const putRequest = objectStore.put(object);
-			
-			putRequest.onsuccess = (event) => {
-				resolve(true);
-			};
-			putRequest.onerror = (event) => {
-				resolve(false);
-			};
-		};
-		
-		dbRequest.onerror = (event) => {
-			resolve(null);
-		};
-	});
 }
