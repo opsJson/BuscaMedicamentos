@@ -5,6 +5,10 @@ let licenca;
 
 loadConfig();
 
+fetch(`${URL}/refreshDistribuidoras`, {headers: {Authorization: licenca}})
+	.then(r => r.json())
+	.then(r => console.log(r));
+
 M.FormSelect.init(document.querySelectorAll("select"));
 M.Tabs.init(document.querySelectorAll(".tabs"));
 M.Modal.init(document.querySelectorAll("#bula"), {inDuration: 0, outDuration: 0});
@@ -28,18 +32,17 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	fetchGuia(query, state, 1)
 	.then(r => {
 		if (!r || !r.items) return;
-		document.querySelector("#guiatab .loading").style.visibility = "hidden";
 		
 		placeGuia(r.items);
 		for (let i=2; i<=r.total_paginas; i++) {
 			fetchGuia(query, state, i).then(r => placeGuia(r.items));
 		}
-	});
+	})
+	.finally(() => document.querySelector("#guiatab .loading").style.visibility = "hidden");
 	
 	fetch(`${URL}/ifood?q=${query}&city=${city}, ${state}`, {headers: {Authorization: licenca}})
 	.then(r => r.json())
 	.then(r => {
-		document.querySelector("#ifoodtab .loading").style.visibility = "hidden";
 		if (!r || !r.length) return;
 		
 		r.forEach(e => {
@@ -53,12 +56,12 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 			document.querySelector("[href='#ifoodtab'] span").innerText = document.getElementById("ifood").children.length;
 			M.Materialbox.init(tr.querySelector(".materialboxed"));
 		});
-	});
+	})
+	.finally(() => document.querySelector("#ifoodtab .loading").style.visibility = "hidden");
 	
 	fetch(`${URL}/pbm?q=${query}`, {headers: {Authorization: licenca}})
 	.then(r => r.json())
 	.then(r => {
-		document.querySelector("#pbmtab .loading").style.visibility = "hidden";
 		if (!r || !r.length) return;
 		
 		r.forEach(e => {
@@ -73,16 +76,15 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 			document.getElementById("pbm").appendChild(tr);
 		});
 		document.querySelector("[href='#pbmtab'] span").innerText = document.getElementById("pbm").children.length;
-	});
+	})
+	.finally(() => document.querySelector("#pbmtab .loading").style.visibility = "hidden");
 	
 	fetch(`${URL}/distribuidoras?q=${query}`, {headers: {Authorization: licenca}})
 	.then(r => r.json())
 	.then(r => {
-		document.querySelector("#distribuidorastab .loading").style.visibility = "hidden";
 		if (!r || !r.length) return;
 		
 		r.sort((a, b) => a.preco_nf - b.preco_nf);
-		r = r.filter(e => e.estoque != "NÃO" && e.estoque > 0);
 		
 		r.forEach(e => {
 			const tr = document.createElement("tr");
@@ -96,7 +98,8 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 			document.getElementById("distribuidoras").appendChild(tr);
 		});
 		document.querySelector("[href='#distribuidorastab'] span").innerText = document.getElementById("distribuidoras").children.length;
-	});
+	})
+	.finally(() => document.querySelector("#distribuidorastab .loading").style.visibility = "hidden");
 });
 
 async function fetchGuia(query, state, p) {
