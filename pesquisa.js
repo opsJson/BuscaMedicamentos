@@ -5,9 +5,7 @@ let licenca;
 
 loadConfig();
 
-fetch(`${URL}/refreshDistribuidoras`, {headers: {Authorization: licenca}})
-	.then(r => r.json())
-	.then(r => console.log(r));
+//fetch(`${URL}/refreshDistribuidoras`, {headers: {Authorization: licenca}}).then(r => r.json()).then(r => console.log(r));
 
 M.FormSelect.init(document.querySelectorAll("select"));
 M.Tabs.init(document.querySelectorAll(".tabs"));
