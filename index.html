@@ -33,7 +33,7 @@
 	}
 	#bula-info {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		justify-content: space-around;
 	}
 	#fixed-config-btn {
@@ -41,6 +41,40 @@
 		bottom: 20px;
 		right: 20px;
 		z-index: 1000;
+	}
+	.info-card {
+		border-radius: 10px;
+		overflow: hidden;
+		margin: 0.5rem;
+		box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.info-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+	}
+
+	.info-card .card-title {
+		font-weight: 600;
+		font-size: 1.2rem;
+		padding: 1rem;
+	}
+
+	.info-card .flow-text {
+		font-size: 1rem;
+		line-height: 1.6;
+		color: #424242;
+	}
+
+	@media only screen and (max-width: 600px) {
+		.info-card {
+			margin: 0.5rem 0;
+		}
+		
+		.info-card .card-content {
+			min-height: auto;
+		}
 	}
 	</style>
 </head>
@@ -53,27 +87,38 @@
 	
 		<div class="col s12">
 			<ul class="tabs teal lighten-5">
-				<li class="tab col s3">
+				<li class="tab col s2">
 					<a class="black-text" href="#guiatab">
 						Guia
 						<span class="new badge blue" data-badge-caption="">0</span>
 					</a>
 				</li>
-				<li class="tab col s3">
+				<li class="tab col s2">
+					<a class="black-text" href="#infotab">
+						Info
+					</a>
+				</li>
+				<li class="tab col s2">
 					<a class="black-text" href="#ifoodtab">
 						iFood
 						<span class="new badge blue" data-badge-caption="">0</span>
 					</a>
 				</li>
-				<li class="tab col s3">
+				<li class="tab col s2">
 					<a class="black-text" href="#distribuidorastab">
 						Distribuidoras
 						<span class="new badge blue" data-badge-caption="">0</span>
 					</a>
 				</li>
-				<li class="tab col s3">
+				<li class="tab col s2">
 					<a class="black-text" href="#pbmtab">
 						PBM
+						<span class="new badge blue" data-badge-caption="">0</span>
+					</a>
+				</li>
+				<li class="tab col s2">
+					<a class="black-text" href="#pbmtab">
+						Sugestão
 						<span class="new badge blue" data-badge-caption="">0</span>
 					</a>
 				</li>
@@ -98,6 +143,66 @@
 				<tbody id="guia"></tbody>
 			</table>
 			
+			<div class="preloader-wrapper active loading">
+				<div class="spinner-layer spinner-teal-only">
+					<div class="circle-clipper left"><div class="circle"></div></div>
+					<div class="gap-patch"><div class="circle"></div></div>
+					<div class="circle-clipper right"><div class="circle"></div></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="infotab" class="col s12">
+			<div class="row">
+				<!-- Card de Indicação -->
+				<div class="col s12 m6 l3">
+					<div class="card info-card">
+						<div class="card-content teal lighten-1 white-text">
+							<span class="card-title">Indicação</span>
+						</div>
+						<div class="card-content grey lighten-4">
+							<p class="flow-text" id="indicacao">-</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Card de Posologia -->
+				<div class="col s12 m6 l3">
+					<div class="card info-card">
+						<div class="card-content cyan lighten-1 white-text">
+							<span class="card-title">Posologia</span>
+						</div>
+						<div class="card-content grey lighten-4">
+							<p class="flow-text" id="posologia">-</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Card de Efeitos Colaterais -->
+				<div class="col s12 m6 l3">
+					<div class="card info-card">
+						<div class="card-content light-blue lighten-1 white-text">
+							<span class="card-title">Efeitos Colaterais</span>
+						</div>
+						<div class="card-content grey lighten-4">
+							<p class="flow-text" id="colaterais">-</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Card de Aparência -->
+				<div class="col s12 m6 l3">
+					<div class="card info-card">
+						<div class="card-content blue lighten-1 white-text">
+							<span class="card-title">Aparência</span>
+						</div>
+						<div class="card-content grey lighten-4">
+							<p class="flow-text" id="aparencia">-</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="preloader-wrapper active loading">
 				<div class="spinner-layer spinner-teal-only">
 					<div class="circle-clipper left"><div class="circle"></div></div>
@@ -194,31 +299,8 @@
 				</div>
 			</div>
 
-			<ul class="col s12 collapsible">
-				<li>
-					<div class="collapsible-header"><i class="material-icons">info_outline</i>Composição</div>
-					<div class="collapsible-body"><span id="composicao"></span></div>
-				</li>
-				<li>
-					<div class="collapsible-header"><i class="material-icons">assignment</i>Indicação</div>
-					<div class="collapsible-body"><span id="indicacao"></span></div>
-				</li>
-				<li>
-					<div class="collapsible-header"><i class="material-icons">healing</i>Posologia</div>
-					<div class="collapsible-body"><span id="posologia"></span></div>
-				</li>
-				<li>
-					<div class="collapsible-header"><i class="material-icons">science</i>Mecanismo de Ação</div>
-					<div class="collapsible-body"><span id="acao"></span></div>
-				</li>
-				<li>
-					<div class="collapsible-header"><i class="material-icons">store</i>Armazenamento</div>
-					<div class="collapsible-body"><span id="armazenamento"></span></div>
-				</li>
-			</ul>
-
 			<div class="col s12 center-align">
-				<a href="#" class="btn blue waves-effect waves-light" target="_blank" id="pdf"><i class="material-icons left">picture_as_pdf</i>Ver Bula Completa (PDF)</a>
+				<a href="#" class="btn blue waves-effect waves-light" target="_blank" id="pdf"><i class="material-icons left">picture_as_pdf</i>Ver Bula Completa</a>
 			</div>
 		</div>
 	</div>

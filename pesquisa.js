@@ -31,6 +31,16 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	.then(r => {
 		if (!r || !r.items) return;
 		
+		fetch(`${URL}/info?q=${r.items[0].id_apresentacao}`, {headers: {Authorization: licenca}})
+		.then(r => r.json())
+		.then(r => {
+			document.getElementById("indicacao").innerText = r.indicacao;
+			document.getElementById("posologia").innerText = r.posologia;
+			document.getElementById("colaterais").innerText = r.colaterais;
+			document.getElementById("aparencia").innerText = r.aparencia;
+		})
+		.finally(() => document.querySelector("#infotab .loading").style.visibility = "hidden");
+		
 		placeGuia(r.items);
 		for (let i=2; i<=r.total_paginas; i++) {
 			fetchGuia(query, state, i).then(r => placeGuia(r.items));
@@ -172,24 +182,13 @@ async function fetchBula(id_apresentacao) {
 			return;
 		}
 		
-		const bula_itens = {};
-		for (const item of r.data[0].bula.bula_itens) {
-			bula_itens[item.codigo] = item.texto;
-		}
-		
 		return {
-			composicao: bula_itens[1],
-			indicacao: bula_itens[2],
-			posologia: bula_itens[7],
-			acao: bula_itens[3],
-			armazenamento: bula_itens[6],
 			pdf: r.data[0].bula.bula_arquivo,
-			
 			ncm: r.data[0].ncm,
 			cest: r.data[0].cest,
 			registro_ms: r.data[0].regms,
 			tarja: r.data[0].tarja,
-		};;
+		};
 	}
 	catch (e) {
 		console.log(e);
@@ -198,11 +197,6 @@ async function fetchBula(id_apresentacao) {
 
 async function placeBula(id_apresentacao, nome, apresentacao) {
 	document.getElementById("bula-nome").innerText = `${nome} ${apresentacao}`;
-	document.getElementById("composicao").innerHTML = "";
-	document.getElementById("indicacao").innerHTML = "";
-	document.getElementById("posologia").innerHTML = "";
-	document.getElementById("acao").innerHTML = "";
-	document.getElementById("armazenamento").innerHTML = "";
 	document.getElementById("pdf").href = "";
 	document.getElementById("ncm").innerText = "";
 	document.getElementById("cest").innerText = "";
@@ -210,11 +204,6 @@ async function placeBula(id_apresentacao, nome, apresentacao) {
 	document.getElementById("registro_ms").innerText = "";
 	
 	const r = await fetchBula(id_apresentacao);
-	document.getElementById("composicao").innerHTML = r.composicao || "";
-	document.getElementById("indicacao").innerHTML = r.indicacao || "";
-	document.getElementById("posologia").innerHTML = r.posologia || "";
-	document.getElementById("acao").innerHTML = r.acao || "";
-	document.getElementById("armazenamento").innerHTML = r.armazenamento || "";
 	document.getElementById("pdf").href = r.pdf;
 	document.getElementById("ncm").innerText = r.ncm;
 	document.getElementById("cest").innerText = r.cest;
