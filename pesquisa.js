@@ -24,14 +24,18 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	lastQuery = query;
 	
 	document.querySelectorAll("tbody").forEach(e => Array.from(e.children).forEach(e => e.remove()));
+	document.querySelectorAll("#infotab .flow-text").forEach(e => e.innerHTML = "");
 	document.querySelectorAll(".loading").forEach(e => e.style.visibility = "visible");
 	document.querySelectorAll(".badge").forEach(e => e.innerText = "0");
 	
 	fetchGuia(query, state, 1)
 	.then(r => {
-		if (!r || !r.items) return;
+		if (!r || !r.items) {
+			document.querySelector("#infotab .loading").style.visibility = "hidden";
+			return;
+		}
 		
-		fetch(`${URL}/info?q=${r.items[0].id_apresentacao}`, {headers: {Authorization: licenca}})
+		fetch(`${URL}/info?q=${r.items[0].id_principio_ativo}&apresentacao=${r.items[0].id_apresentacao}`, {headers: {Authorization: licenca}})
 		.then(r => r.json())
 		.then(r => {
 			document.getElementById("indicacao").innerText = r.indicacao;
@@ -136,7 +140,8 @@ async function fetchGuia(query, state, p) {
 					PF: e.precofabricaestado,
 					PMC: e.precomaximoestado,
 					principio_ativo: e.principio_ativo,
-					id_apresentacao: String(e.id_apresentacao).padStart(9, "0")
+					id_apresentacao: String(e.id_apresentacao).padStart(9, "0"),
+					id_principio_ativo: e.id_principio_ativo
 				};
 			})
 		};
