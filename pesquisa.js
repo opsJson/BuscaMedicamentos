@@ -13,6 +13,7 @@ M.Modal.init(document.querySelectorAll("#bula"), {inDuration: 0, outDuration: 0}
 M.Modal.init(document.querySelectorAll("#config"), {inDuration: 0, outDuration: 0});
 M.Collapsible.init(document.querySelectorAll(".collapsible"));
 
+document.getElementById("pdf").addEventListener("click", event => event.target.style.cursor == "not-allowed" && event.preventDefault());
 document.getElementById("search").focus();
 document.getElementById("search").addEventListener("focus", event => event.target.select());
 document.getElementById("search").addEventListener("keydown", async function (event) {
@@ -202,13 +203,15 @@ async function fetchBula(id_apresentacao) {
 
 async function placeBula(id_apresentacao, nome, apresentacao) {
 	document.getElementById("bula-nome").innerText = `${nome} ${apresentacao}`;
+	document.getElementById("pdf").style.cursor = "not-allowed";
 	document.getElementById("pdf").href = "";
-	document.getElementById("ncm").innerText = "";
-	document.getElementById("cest").innerText = "";
-	document.getElementById("tarja").innerText = "";
-	document.getElementById("registro_ms").innerText = "";
+	document.getElementById("ncm").innerText = "Carregando...";
+	document.getElementById("cest").innerText = "Carregando...";
+	document.getElementById("tarja").innerText = "Carregando...";
+	document.getElementById("registro_ms").innerText = "Carregando...";
 	
 	const r = await fetchBula(id_apresentacao);
+	document.getElementById("pdf").style.cursor = "pointer";
 	document.getElementById("pdf").href = r.pdf;
 	document.getElementById("ncm").innerText = r.ncm;
 	document.getElementById("cest").innerText = r.cest;
