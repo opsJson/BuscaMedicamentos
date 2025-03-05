@@ -1,11 +1,8 @@
 const URL = "https://cbr3emmw65uv2uzbjcfknv4iny0nuiul.lambda-url.sa-east-1.on.aws";
-let state, city;
+let config;
 let lastQuery;
-let licenca;
 
 loadConfig();
-
-//fetch(`${URL}/refreshDistribuidoras`, {headers: {Authorization: licenca}}).then(r => r.json()).then(r => console.log(r));
 
 M.FormSelect.init(document.querySelectorAll("select"));
 M.Tabs.init(document.querySelectorAll(".tabs"));
@@ -25,18 +22,18 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	lastQuery = query;
 	
 	document.querySelectorAll("tbody").forEach(e => Array.from(e.children).forEach(e => e.remove()));
-	document.querySelectorAll("#infotab .flow-text").forEach(e => e.innerHTML = "");
+	document.querySelectorAll("#bulaaitab .flow-text").forEach(e => e.innerHTML = "");
 	document.querySelectorAll(".loading").forEach(e => e.style.visibility = "visible");
 	document.querySelectorAll(".badge").forEach(e => e.innerText = "0");
 	
-	fetchGuia(query, state, 1)
+	fetchGuia(query, config.state, 1)
 	.then(r => {
 		if (!r || !r.items) {
-			document.querySelector("#infotab .loading").style.visibility = "hidden";
+			document.querySelector("#bulaaitab .loading").style.visibility = "hidden";
 			return;
 		}
 		
-		fetch(`${URL}/info?q=${r.items[0].id_principio_ativo}&apresentacao=${r.items[0].id_apresentacao}`, {headers: {Authorization: licenca}})
+		fetch(`${URL}/info?q=${r.items[0].id_principio_ativo}&apresentacao=${r.items[0].id_apresentacao}`, {headers: {Authorization: config.licenca}})
 		.then(r => r.json())
 		.then(r => {
 			document.getElementById("indicacao").innerText = r.indicacao;
@@ -44,16 +41,16 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 			document.getElementById("colaterais").innerText = r.colaterais;
 			document.getElementById("aparencia").innerText = r.aparencia;
 		})
-		.finally(() => document.querySelector("#infotab .loading").style.visibility = "hidden");
+		.finally(() => document.querySelector("#bulaaitab .loading").style.visibility = "hidden");
 		
 		placeGuia(r.items);
 		for (let i=2; i<=r.total_paginas; i++) {
-			fetchGuia(query, state, i).then(r => placeGuia(r.items));
+			fetchGuia(query, config.state, i).then(r => placeGuia(r.items));
 		}
 	})
 	.finally(() => document.querySelector("#guiatab .loading").style.visibility = "hidden");
 	
-	fetch(`${URL}/ifood?q=${query}&city=${city}, ${state}`, {headers: {Authorization: licenca}})
+	fetch(`${URL}/ifood?q=${query}&city=${config.city}, ${config.state}`, {headers: {Authorization: config.licenca}})
 	.then(r => r.json())
 	.then(r => {
 		if (!r || !r.length) return;
@@ -72,7 +69,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	})
 	.finally(() => document.querySelector("#ifoodtab .loading").style.visibility = "hidden");
 	
-	fetch(`${URL}/pbm?q=${query}`, {headers: {Authorization: licenca}})
+	fetch(`${URL}/pbm?q=${query}`, {headers: {Authorization: config.licenca}})
 	.then(r => r.json())
 	.then(r => {
 		if (!r || !r.length) return;
@@ -92,7 +89,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	})
 	.finally(() => document.querySelector("#pbmtab .loading").style.visibility = "hidden");
 	
-	fetch(`${URL}/distribuidoras?q=${query}`, {headers: {Authorization: licenca}})
+	fetch(`${URL}/distribuidoras?q=${query}`, {headers: {Authorization: config.licenca}})
 	.then(r => r.json())
 	.then(r => {
 		if (!r || !r.length) return;
@@ -170,14 +167,22 @@ function placeGuia(items) {
 						<td>${e.ean}</td>
 						<td>R$${e.PF}</td>
 						<td>R$${e.PMC}</td>
-						<td><button data-target="bula" class="btn blue modal-trigger" onclick="placeBula('${e.id_apresentacao}', '${e.nome}', '${e.apresentacao}')">📑</button></td>`;
+						<td><button data-target="bula" class="btn blue modal-trigger" onclick="guiaMoreInfo('${e.id_apresentacao}', '${e.nome}', '${e.apresentacao}')">📑</button></td>`;
 		document.getElementById("guia").appendChild(tr);
 	}
 	
 	document.querySelector("[href='#guiatab'] span").innerText = document.getElementById("guia").children.length;
 }
 
-async function fetchBula(id_apresentacao) {
+async function guiaMoreInfo(id_apresentacao, nome, apresentacao) {
+	document.getElementById("bula-nome").innerText = `${nome} ${apresentacao}`;
+	document.getElementById("pdf").style.cursor = "not-allowed";
+	document.getElementById("pdf").href = "";
+	document.getElementById("ncm").innerText = "Carregando...";
+	document.getElementById("cest").innerText = "Carregando...";
+	document.getElementById("tarja").innerText = "Carregando...";
+	document.getElementById("registro_ms").innerText = "Carregando...";
+	
 	try {
 		let r = await fetch(`https://guiadafarmaciadigital.com.br/wp-json/guiadigital/v1/produto-relacionado?qtdeitens=30&pagina=1&estado=MG&id_apresentacao=${id_apresentacao}`);
 		r = await r.json();
@@ -188,54 +193,30 @@ async function fetchBula(id_apresentacao) {
 			return;
 		}
 		
-		return {
-			pdf: r.data[0].bula.bula_arquivo,
-			ncm: r.data[0].ncm,
-			cest: r.data[0].cest,
-			registro_ms: r.data[0].regms,
-			tarja: r.data[0].tarja,
-		};
+		document.getElementById("pdf").style.cursor = "pointer";
+		document.getElementById("pdf").href = r.data[0].bula.bula_arquivo;
+		document.getElementById("ncm").innerText = r.data[0].ncm;
+		document.getElementById("cest").innerText = r.data[0].cest;
+		document.getElementById("tarja").innerText = r.data[0].tarja;
+		document.getElementById("registro_ms").innerText = r.data[0].regms;
 	}
 	catch (e) {
 		console.log(e);
 	}
 }
 
-async function placeBula(id_apresentacao, nome, apresentacao) {
-	document.getElementById("bula-nome").innerText = `${nome} ${apresentacao}`;
-	document.getElementById("pdf").style.cursor = "not-allowed";
-	document.getElementById("pdf").href = "";
-	document.getElementById("ncm").innerText = "Carregando...";
-	document.getElementById("cest").innerText = "Carregando...";
-	document.getElementById("tarja").innerText = "Carregando...";
-	document.getElementById("registro_ms").innerText = "Carregando...";
-	
-	const r = await fetchBula(id_apresentacao);
-	document.getElementById("pdf").style.cursor = "pointer";
-	document.getElementById("pdf").href = r.pdf;
-	document.getElementById("ncm").innerText = r.ncm;
-	document.getElementById("cest").innerText = r.cest;
-	document.getElementById("tarja").innerText = r.tarja;
-	document.getElementById("registro_ms").innerText = r.registro_ms;
-}
-
 function loadConfig() {
-	state = localStorage.getItem("estado") || "SP";
-	city = localStorage.getItem("cidade") || "São Paulo";
-	licenca = localStorage.getItem("licenca") || "";
-	
-	document.getElementById("estado").value = state;
-	document.getElementById("cidade").value = city;
-	document.getElementById("licenca").value = licenca;
+	config = JSON.parse(localStorage.getItem("config")) || {state: "SP", city: "São Paulo", licenca: ""};
+	document.getElementById("estado").value = config.state;
+	document.getElementById("cidade").value = config.city;
+	document.getElementById("licenca").value = config.licenca;
 }
 
 async function saveConfig() {
-	city = document.getElementById("cidade").value?.trim() || "";
-	state = document.getElementById("estado").value?.toUpperCase()?.trim() || "";
-	licenca = document.getElementById("licenca").value?.trim() || "";
+	config.city = document.getElementById("cidade").value?.trim() || "";
+	config.state = document.getElementById("estado").value?.toUpperCase()?.trim() || "";
+	config.licenca = document.getElementById("licenca").value?.trim() || "";
 	
-	localStorage.setItem("cidade", city);
-	localStorage.setItem("estado", state);
-	localStorage.setItem("licenca", licenca);
+	localStorage.setItem("config", JSON.stringify(config));
 	document.getElementById("config").style.display = "none";
 }
