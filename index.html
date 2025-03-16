@@ -298,21 +298,28 @@
 	<div class="modal" id="config">
 		<div class="modal-content row">
 			<h5>Configurações</h5>
+			<a class="modal-close" style="position: absolute; top: 10px; right: 20px; cursor: pointer; font-size: 24px; color: #666">&times;</a>
+			
             <div class="row">
                 <div class="input-field col s8">
                     <input id="cidade" type="text">
                     <label for="cidade">Cidade</label>
                 </div>
                 <div class="input-field col s4">
-                    <input id="estado" type="text">
+                    <input id="estado" type="text" maxlength="2">
                     <label for="estado">Estado (Sigla)</label>
                 </div>
-                <div class="input-field col s12">
-                    <input id="email" type="text">
-                    <label for="email">Email</label>
+                <div class="input-field col s8">
+                    <input id="license" type="password">
+                    <label for="license">Licença</label>
                 </div>
 				<div class="modal-footer">
-					<button class="btn waves-effect waves-light modal-close" href="#" onclick="saveConfig()">Salvar</button>
+					<div class="col s12">
+						<a class="btn waves-effect waves-light green" target="_blank" href="https://buy.stripe.com/fZebJpbh15rUbjqaEN">Adquirir Nova Licença</a>
+					</div>
+					<div class="col s12">
+						<button class="btn waves-effect waves-light modal-close" href="#" onclick="saveConfig()">Salvar</button>
+					</div>
 				</div>
             </div>
 		</div>

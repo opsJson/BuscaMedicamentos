@@ -21,7 +21,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	if (query == lastQuery) return;
 	lastQuery = query;
 	
-	if (!config.email) {
+	if (!config.license) {
 		alert("Você precisa fornecer uma licença válida!");
 		return;
 	}
@@ -38,7 +38,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 			return;
 		}
 		
-		fetch(`${URL}/info?q=${r.items[0].id_principio_ativo}&apresentacao=${r.items[0].id_apresentacao}`, {headers: {Authorization: config.email}})
+		fetch(`${URL}/info?q=${r.items[0].id_principio_ativo}&apresentacao=${r.items[0].id_apresentacao}`, {headers: {Authorization: config.license}})
 		.then(r => r.json())
 		.then(r => {
 			document.getElementById("indicacao").innerText = r.indicacao;
@@ -55,7 +55,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	})
 	.finally(() => document.querySelector("#guiatab .loading").style.visibility = "hidden");
 	
-	fetch(`${URL}/ifood?q=${query}&city=${config.city}, ${config.state}`, {headers: {Authorization: config.email}})
+	fetch(`${URL}/ifood?q=${query}&city=${config.city}, ${config.state}`, {headers: {Authorization: config.license}})
 	.then(r => r.json())
 	.then(r => {
 		if (!r || !r.length) return;
@@ -74,7 +74,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	})
 	.finally(() => document.querySelector("#ifoodtab .loading").style.visibility = "hidden");
 	
-	fetch(`${URL}/pbm?q=${query}`, {headers: {Authorization: config.email}})
+	fetch(`${URL}/pbm?q=${query}`, {headers: {Authorization: config.license}})
 	.then(r => r.json())
 	.then(r => {
 		if (!r || !r.length) return;
@@ -94,7 +94,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	})
 	.finally(() => document.querySelector("#pbmtab .loading").style.visibility = "hidden");
 	
-	fetch(`${URL}/distribuidoras?q=${query}`, {headers: {Authorization: config.email}})
+	fetch(`${URL}/distribuidoras?q=${query}`, {headers: {Authorization: config.license}})
 	.then(r => r.json())
 	.then(r => {
 		if (!r || !r.length) return;
@@ -211,16 +211,17 @@ async function guiaMoreInfo(id_apresentacao, nome, apresentacao) {
 }
 
 function loadConfig() {
-	config = JSON.parse(localStorage.getItem("config")) || {state: "SP", city: "São Paulo", email: ""};
+	config = JSON.parse(localStorage.getItem("config")) || {state: "SP", city: "São Paulo", license: ""};
+	
 	document.getElementById("estado").value = config.state || "";
 	document.getElementById("cidade").value = config.city || "";
-	document.getElementById("email").value = config.email || "";
+	document.getElementById("license").value = config.license || "";
 }
 
 async function saveConfig() {
 	config.city = document.getElementById("cidade").value?.trim() || "";
 	config.state = document.getElementById("estado").value?.toUpperCase()?.trim() || "";
-	config.email = document.getElementById("email").value?.trim() || "";
+	config.license = document.getElementById("license").value?.trim() || "";
 	
 	localStorage.setItem("config", JSON.stringify(config));
 	document.getElementById("config").style.display = "none";
