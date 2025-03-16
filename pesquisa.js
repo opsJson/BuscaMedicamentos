@@ -21,6 +21,11 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	if (query == lastQuery) return;
 	lastQuery = query;
 	
+	if (!config.licenca) {
+		alert("Você precisa fornecer uma licença válida!");
+		return;
+	}
+	
 	document.querySelectorAll("tbody").forEach(e => Array.from(e.children).forEach(e => e.remove()));
 	document.querySelectorAll("#bulaaitab .flow-text").forEach(e => e.innerHTML = "");
 	document.querySelectorAll(".loading").forEach(e => e.style.visibility = "visible");
