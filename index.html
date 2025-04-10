@@ -42,40 +42,6 @@
 		right: 20px;
 		z-index: 1000;
 	}
-	.info-card {
-		border-radius: 10px;
-		overflow: hidden;
-		margin: 0.5rem;
-		box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-	}
-
-	.info-card:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-	}
-
-	.info-card .card-title {
-		font-weight: 600;
-		font-size: 1.2rem;
-		padding: 1rem;
-	}
-
-	.info-card .flow-text {
-		font-size: 1rem;
-		line-height: 1.6;
-		color: #424242;
-	}
-
-	@media only screen and (max-width: 600px) {
-		.info-card {
-			margin: 0.5rem 0;
-		}
-		
-		.info-card .card-content {
-			min-height: auto;
-		}
-	}
 	</style>
 </head>
 <body>
@@ -99,21 +65,16 @@
 						<span class="new badge blue" data-badge-caption="">0</span>
 					</a>
 				</li>
-				<li class="tab col s2">
+				<li class="tab col s3">
 					<a class="black-text" href="#distribuidorastab">
 						Distribuidoras
 						<span class="new badge blue" data-badge-caption="">0</span>
 					</a>
 				</li>
-				<li class="tab col s2">
+				<li class="tab col s3">
 					<a class="black-text" href="#pbmtab">
 						PBM
 						<span class="new badge blue" data-badge-caption="">0</span>
-					</a>
-				</li>
-				<li class="tab col s2">
-					<a class="black-text" href="#bulaaitab">
-						Bula AI
 					</a>
 				</li>
 			</ul>
@@ -137,62 +98,6 @@
 				<tbody id="guia"></tbody>
 			</table>
 			
-			<div class="preloader-wrapper active loading">
-				<div class="spinner-layer spinner-teal-only">
-					<div class="circle-clipper left"><div class="circle"></div></div>
-					<div class="gap-patch"><div class="circle"></div></div>
-					<div class="circle-clipper right"><div class="circle"></div></div>
-				</div>
-			</div>
-		</div>
-		
-		<div id="bulaaitab" class="col s12">
-			<div class="row">
-				<div class="col s12 m6 l3">
-					<div class="card info-card">
-						<div class="card-content teal lighten-1 white-text">
-							<span class="card-title">Indicação</span>
-						</div>
-						<div class="card-content grey lighten-4">
-							<p class="flow-text" id="indicacao"></p>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col s12 m6 l3">
-					<div class="card info-card">
-						<div class="card-content cyan lighten-1 white-text">
-							<span class="card-title">Posologia</span>
-						</div>
-						<div class="card-content grey lighten-4">
-							<p class="flow-text" id="posologia"></p>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col s12 m6 l3">
-					<div class="card info-card">
-						<div class="card-content light-blue lighten-1 white-text">
-							<span class="card-title">Efeitos Colaterais</span>
-						</div>
-						<div class="card-content grey lighten-4">
-							<p class="flow-text" id="colaterais"></p>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col s12 m6 l3">
-					<div class="card info-card">
-						<div class="card-content blue lighten-1 white-text">
-							<span class="card-title">Aparência</span>
-						</div>
-						<div class="card-content grey lighten-4">
-							<p class="flow-text" id="aparencia"></p>
-						</div>
-					</div>
-				</div>
-			</div>
-
 			<div class="preloader-wrapper active loading">
 				<div class="spinner-layer spinner-teal-only">
 					<div class="circle-clipper left"><div class="circle"></div></div>
@@ -278,10 +183,17 @@
 	
 	<div class="modal" id="bula">
 		<div class="modal-content row">
+		    <a class="modal-close" style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; color: #666;">&times;</a>
+		
 			<h5 class="col s12 center-align" id="bula-nome"></h5>
 			
 			<div class="col s12">
 				<div id="bula-info">
+					<p><strong>Indicação:</strong> <span id="indicacao"></span></p>
+					<p><strong>Posologia:</strong> <span id="posologia"></span></p>
+					<p><strong>Efeitos Colaterais:</strong> <span id="colaterais"></span></p>
+					<p><strong>Aparência:</strong> <span id="aparencia"></span></p>
+				
 					<p><strong>Registro MS:</strong> <span id="registro_ms"></span></p>
 					<p><strong>CEST:</strong> <span id="cest"></span></p>
 					<p><strong>NCM:</strong> <span id="ncm"></span></p>
@@ -290,7 +202,7 @@
 			</div>
 
 			<div class="col s12 center-align">
-				<a href="#" class="btn blue waves-effect waves-light" target="_blank" id="pdf"><i class="material-icons left">picture_as_pdf</i>Ver Bula Completa</a>
+				<a class="btn blue waves-effect waves-light" target="_blank" id="pdf"><i class="material-icons left">picture_as_pdf</i>Ver Bula Completa</a>
 			</div>
 		</div>
 	</div>
@@ -298,7 +210,7 @@
 	<div class="modal" id="config">
 		<div class="modal-content row">
 			<h5>Configurações</h5>
-			<a class="modal-close" style="position: absolute; top: 10px; right: 20px; cursor: pointer; font-size: 24px; color: #666">&times;</a>
+			<a class="modal-close" style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; color: #666">&times;</a>
 			
             <div class="row">
                 <div class="input-field col s8">
@@ -319,7 +231,7 @@
 						<a class="btn waves-effect waves-light green" target="_blank" href="https://billing.stripe.com/p/login/00g3cqcAT2V2cTu9AA">⚙️</a>
 					</div>
 					<div class="col s12">
-						<button class="btn waves-effect waves-light modal-close" href="#" onclick="saveConfig()">Salvar</button>
+						<button class="btn waves-effect waves-light modal-close" onclick="saveConfig()">Salvar</button>
 					</div>
 				</div>
             </div>

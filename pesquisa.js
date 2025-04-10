@@ -33,20 +33,7 @@ document.getElementById("search").addEventListener("keydown", async function (ev
 	
 	fetchGuia(query, config.state, 1)
 	.then(r => {
-		if (!r || !r.items) {
-			document.querySelector("#bulaaitab .loading").style.visibility = "hidden";
-			return;
-		}
-		
-		fetch(`${URL}/info?q=${r.items[0].id_principio_ativo}&apresentacao=${r.items[0].id_apresentacao}`, {headers: {Authorization: config.license}})
-		.then(r => r.json())
-		.then(r => {
-			document.getElementById("indicacao").innerText = r.indicacao;
-			document.getElementById("posologia").innerText = r.posologia;
-			document.getElementById("colaterais").innerText = r.colaterais;
-			document.getElementById("aparencia").innerText = r.aparencia;
-		})
-		.finally(() => document.querySelector("#bulaaitab .loading").style.visibility = "hidden");
+		if (!r || !r.items) return;
 		
 		placeGuia(r.items);
 		for (let i=2; i<=r.total_paginas; i++) {
@@ -187,6 +174,20 @@ async function guiaMoreInfo(id_apresentacao, nome, apresentacao) {
 	document.getElementById("cest").innerText = "Carregando...";
 	document.getElementById("tarja").innerText = "Carregando...";
 	document.getElementById("registro_ms").innerText = "Carregando...";
+	
+	document.getElementById("indicacao").innerText = "Carregando...";
+	document.getElementById("posologia").innerText = "Carregando...";
+	document.getElementById("colaterais").innerText = "Carregando...";
+	document.getElementById("aparencia").innerText = "Carregando...";
+	
+	fetch(`${URL}/bula?q=${id_apresentacao}`, {headers: {Authorization: config.license}})
+	.then(r => r.json())
+	.then(r => {
+		document.getElementById("indicacao").innerText = r.indicacao;
+		document.getElementById("posologia").innerText = r.posologia;
+		document.getElementById("colaterais").innerText = r.colaterais;
+		document.getElementById("aparencia").innerText = r.aparencia;
+	});
 	
 	try {
 		let r = await fetch(`https://guiadafarmaciadigital.com.br/wp-json/guiadigital/v1/produto-relacionado?qtdeitens=30&pagina=1&estado=MG&id_apresentacao=${id_apresentacao}`);
