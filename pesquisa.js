@@ -180,7 +180,7 @@ async function guiaMoreInfo(id_apresentacao, nome, apresentacao) {
 	document.getElementById("colaterais").innerText = "Carregando...";
 	document.getElementById("aparencia").innerText = "Carregando...";
 	
-	fetch(`${URL}/bula?q=${id_apresentacao}`, {headers: {Authorization: config.license}})
+	fetch(`${URL}/bula?q=${nome} ${apresentacao}`, {headers: {Authorization: config.license}})
 	.then(r => r.json())
 	.then(r => {
 		document.getElementById("indicacao").innerText = r.indicacao;
