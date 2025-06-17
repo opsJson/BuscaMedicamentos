@@ -3,248 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Busca Medicamentos</title>
-	<link rel="icon" href="pesquisa.ico" type="image/x-icon">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <style>
-	body {
-		padding: 15px;
-	}
-	h5 {
-		color: #00796b;
-	}
-	thead {
-		position: sticky;
-		top: 0;
-		background-color: white;
-	}
-	.tabs .indicator {
-		background-color: #80cbc4; /* teal lighten-2 */
-	}
-	.tabs .tab a:focus.active {
-		background-color: #e0f2f1; /* teal lighten-5 */
-	}
-	.loading {
-		visibility: hidden;
-		position: absolute;
-		top: 45vh;
-		left: 45vw;
-	}
-	#bula-info {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-	}
-	#fixed-config-btn {
-		position: fixed;
-		bottom: 20px;
-		right: 20px;
-		z-index: 1000;
-	}
-	</style>
+    <title>Busca Medicamentos | Encontre medicamentos e informações</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="pesquisa.ico" type="image/x-icon">
+	<link rel="stylesheet" href="styles.css">
 </head>
-<body>
-	<div class="row">
-		<div class="input-field col s12">
-			<input type="text" class="validate" id="search">
-			<label for="search">Busque por nome ou código de barras</label>
-		</div>
-	
-		<div class="col s12">
-			<ul class="tabs teal lighten-5">
-				<li class="tab col s3">
-					<a class="black-text" href="#guiatab">
-						Guia
-						<span class="new badge blue" data-badge-caption="">0</span>
-					</a>
-				</li>
-				<li class="tab col s3">
-					<a class="black-text" href="#ifoodtab">
-						iFood
-						<span class="new badge blue" data-badge-caption="">0</span>
-					</a>
-				</li>
-				<li class="tab col s3">
-					<a class="black-text" href="#distribuidorastab">
-						Distribuidoras
-						<span class="new badge blue" data-badge-caption="">0</span>
-					</a>
-				</li>
-				<li class="tab col s3">
-					<a class="black-text" href="#pbmtab">
-						PBM
-						<span class="new badge blue" data-badge-caption="">0</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-		
-		<div id="guiatab" class="col s12">
-			<table class="striped centered">
-				<thead>
-					<tr>
-						<th>Tipo</th>
-						<th>Nome</th>
-						<th>Apresentação</th>
-						<th>Princípio Ativo</th>
-						<th>Fabricante</th>
-						<th>EAN</th>
-						<th>PF</th>
-						<th>PMC</th>
-						<th>BULA</th>
-					</tr>
-				</thead>
-				<tbody id="guia"></tbody>
-			</table>
-			
-			<div class="preloader-wrapper active loading">
-				<div class="spinner-layer spinner-teal-only">
-					<div class="circle-clipper left"><div class="circle"></div></div>
-					<div class="gap-patch"><div class="circle"></div></div>
-					<div class="circle-clipper right"><div class="circle"></div></div>
-				</div>
-			</div>
-		</div>
-		
-		<div id="ifoodtab" class="col s12">
-			<table class="striped centered">
-				<thead>
-					<tr>
-						<th>Imagem</th>
-						<th>Nome</th>
-						<th>Preço Bruto</th>
-						<th>Preço Final</th>
-						<th>Farmácia</th>
-					</tr>
-				</thead>
-				<tbody id="ifood"></tbody>
-			</table>
-			
-			<div class="preloader-wrapper active loading">
-				<div class="spinner-layer spinner-teal-only">
-					<div class="circle-clipper left"><div class="circle"></div></div>
-					<div class="gap-patch"><div class="circle"></div></div>
-					<div class="circle-clipper right"><div class="circle"></div></div>
-				</div>
-			</div>
-		</div>
-		
-		<div id="distribuidorastab" class="col s12">
-			<table class="striped centered">
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Distribuidora</th>
-						<th>Estoque</th>
-						<th>Preço Nota Fiscal</th>
-						<th>Fornecedor</th>
-						<th>EAN</th>
-						<th>Validade</th>
-					</tr>
-				</thead>
-				<tbody id="distribuidoras"></tbody>
-			</table>
-			
-			<div class="preloader-wrapper active loading">
-				<div class="spinner-layer spinner-teal-only">
-					<div class="circle-clipper left"><div class="circle"></div></div>
-					<div class="gap-patch"><div class="circle"></div></div>
-					<div class="circle-clipper right"><div class="circle"></div></div>
-				</div>
-			</div>
-		</div>
-		
-		<div id="pbmtab" class="col s12">
-			<table class="striped centered">
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Programa</th>
-						<th>Autorizador</th>
-						<th>Desconto</th>
-						<th>Info</th>
-						<th>Laboratório</th>
-						<th>EAN</th>
-					</tr>
-				</thead>
-				<tbody id="pbm"></tbody>
-			</table>
-			
-			<div class="preloader-wrapper active loading">
-				<div class="spinner-layer spinner-teal-only">
-					<div class="circle-clipper left"><div class="circle"></div></div>
-					<div class="gap-patch"><div class="circle"></div></div>
-					<div class="circle-clipper right"><div class="circle"></div></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="modal" id="bula">
-		<div class="modal-content row">
-		    <a class="modal-close" style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; color: #666;">&times;</a>
-		
-			<h5 class="col s12 center-align" id="bula-nome"></h5>
-			
-			<div class="col s12">
-				<div id="bula-info">
-					<p><strong>Indicação:</strong> <span id="indicacao"></span></p>
-					<p><strong>Posologia:</strong> <span id="posologia"></span></p>
-					<p><strong>Efeitos Colaterais:</strong> <span id="colaterais"></span></p>
-					<p><strong>Aparência:</strong> <span id="aparencia"></span></p>
-				
-					<p><strong>Registro MS:</strong> <span id="registro_ms"></span></p>
-					<p><strong>CEST:</strong> <span id="cest"></span></p>
-					<p><strong>NCM:</strong> <span id="ncm"></span></p>
-					<p><strong>Tarja:</strong> <span id="tarja"></span></p>
-				</div>
-			</div>
-
-			<div class="col s12 center-align">
-				<a class="btn blue waves-effect waves-light" target="_blank" id="pdf"><i class="material-icons left">picture_as_pdf</i>Ver Bula Completa</a>
-			</div>
-		</div>
-	</div>
-	
-	<div class="modal" id="config">
-		<div class="modal-content row">
-			<h5>Configurações</h5>
-			<a class="modal-close" style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; color: #666">&times;</a>
-			
-            <div class="row">
-                <div class="input-field col s8">
-                    <input id="cidade" type="text">
-                    <label for="cidade">Cidade</label>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <i class="fas fa-pills text-blue-500 text-3xl mr-3"></i>
+                    <h1 class="text-2xl font-bold text-gray-800">Busca Medicamentos</h1>
                 </div>
-                <div class="input-field col s4">
-                    <input id="estado" type="text" maxlength="2">
-                    <label for="estado">Estado (Sigla)</label>
-                </div>
-                <div class="input-field col s8">
-                    <input id="license" type="password">
-                    <label for="license">Licença</label>
-                </div>
-				<div class="modal-footer">
-					<div class="col s12">
-						<a class="btn waves-effect waves-light green" target="_blank" href="https://buy.stripe.com/fZebJpbh15rUbjqaEN">Adquirir Nova Licença</a>
-						<a class="btn waves-effect waves-light green" target="_blank" href="https://billing.stripe.com/p/login/00g3cqcAT2V2cTu9AA">⚙️</a>
-					</div>
-					<div class="col s12">
-						<button class="btn waves-effect waves-light modal-close" onclick="saveConfig()">Salvar</button>
-					</div>
-				</div>
+                <button id="configBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                    <i class="fas fa-cog mr-2"></i> Configurações
+                </button>
             </div>
-		</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-[98%] mx-auto py-8">
+
+        <!-- Search Section -->
+        <section class="mb-12">
+            <div class="search-container bg-white rounded-lg p-6 max-w-4xl mx-auto">
+                <div class="relative">
+                    <input type="text" id="search" placeholder="Digite o nome do medicamento ou EAN..." 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <i class="fas fa-search absolute right-3 top-4 text-gray-400"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs Navigation -->
+        <section class="mb-8">
+            <div class="flex justify-center">
+                <div class="flex space-x-1 bg-white rounded-lg shadow-sm p-1">
+                    <button class="tab-button px-6 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-100 active" data-tab="guiatab">
+                        <i class="fas fa-book-medical mr-2"></i> Guia
+                        <span class="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded badge">0</span>
+                    </button>
+                    <button class="tab-button px-6 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-100" data-tab="ifoodtab">
+                        <i class="fas fa-utensils mr-2"></i> iFood
+                        <span class="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded badge">0</span>
+                    </button>
+                    <button class="tab-button px-6 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-100" data-tab="distribuidorastab">
+                        <i class="fas fa-truck mr-2"></i> Distribuidoras
+                        <span class="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded badge">0</span>
+                    </button>
+                    <button class="tab-button px-6 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-100" data-tab="pbmtab">
+                        <i class="fas fa-file-invoice-dollar mr-2"></i> PBM
+                        <span class="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded badge">0</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section>
+            <!-- Guia Tab Content -->
+            <div id="guiatab" class="tab-content active">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apresentação</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Princípio Ativo</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fabricante</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">EAN</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PF</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PMC</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">BULA</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="guia"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="loading"></div>
+            </div>
+            
+            <!-- iFood Tab Content -->
+            <div id="ifoodtab" class="tab-content">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imagem</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço Bruto</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço Final</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Farmácia</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="ifood"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="loading"></div>
+            </div>
+            
+            <!-- Distribuidoras Tab Content -->
+            <div id="distribuidorastab" class="tab-content">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Distribuidora</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estoque</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço NF</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fornecedor</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">EAN</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Validade</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="distribuidoras"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="loading"></div>
+            </div>
+            
+            <!-- PBM Tab Content -->
+            <div id="pbmtab" class="tab-content">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Programa</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Autorizador</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Desconto</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Info</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Laboratório</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">EAN</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="pbm"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="loading"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bula Modal -->
+    <div id="bulaModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center pb-3">
+                <h3 class="text-xl font-semibold text-gray-800" id="bula-nome"></h3>
+                <button onclick="document.getElementById('bulaModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="border-b pb-4">
+                    <h4 class="font-medium text-blue-600 mb-2">Informações Principais</h4>
+                    <p><strong class="text-gray-700">Indicação:</strong> <span id="indicacao" class="text-gray-600"></span></p>
+                    <p><strong class="text-gray-700">Posologia:</strong> <span id="posologia" class="text-gray-600"></span></p>
+                </div>
+                
+                <div class="border-b pb-4">
+                    <h4 class="font-medium text-blue-600 mb-2">Detalhes</h4>
+                    <p><strong class="text-gray-700">Efeitos Colaterais:</strong> <span id="colaterais" class="text-gray-600"></span></p>
+                    <p><strong class="text-gray-700">Aparência:</strong> <span id="aparencia" class="text-gray-600"></span></p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-medium text-blue-600 mb-2">Registro</h4>
+                        <p><strong class="text-gray-700">Registro MS:</strong> <span id="registro_ms" class="text-gray-600"></span></p>
+                        <p><strong class="text-gray-700">CEST:</strong> <span id="cest" class="text-gray-600"></span></p>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-blue-600 mb-2">Classificação</h4>
+                        <p><strong class="text-gray-700">NCM:</strong> <span id="ncm" class="text-gray-600"></span></p>
+                        <p><strong class="text-gray-700">Tarja:</strong> <span id="tarja" class="text-gray-600"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <a id="pdf" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    <i class="fas fa-file-pdf mr-2"></i> Ver Bula Completa
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Config Modal -->
+    <div id="configModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-1/2 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center pb-3">
+                <h3 class="text-xl font-semibold text-gray-800">Configurações</h3>
+                <button onclick="document.getElementById('configModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="relative">
+                        <label for="cidade" class="block text-sm font-medium text-gray-700 mb-1">Cidade</label>
+                        <div class="relative">
+                            <i class="fas fa-city absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="cidade" class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label for="estado" class="block text-sm font-medium text-gray-700 mb-1">Estado (Sigla)</label>
+                        <div class="relative">
+                            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="estado" maxlength="2" class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <label for="license" class="block text-sm font-medium text-gray-700 mb-1">Licença</label>
+                    <div class="relative">
+                        <i class="fas fa-key absolute left-3 top-3 text-gray-400"></i>
+                        <input type="password" id="license" class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-wrap justify-between">
+                <div class="space-x-2 mb-2">
+                    <a href="https://buy.stripe.com/fZebJpbh15rUbjqaEN" target="_blank" class="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                        <i class="fas fa-shopping-cart mr-2"></i> Adquirir Nova Licença
+                    </a>
+                    <a href="https://billing.stripe.com/p/login/00g3cqcAT2V2cTu9AA" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                        <i class="fas fa-cog mr-2"></i> Gerenciar Licença
+                    </a>
+                </div>
+                <button onclick="saveConfig()" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    <i class="fas fa-save mr-2"></i> Salvar Configurações
+                </button>
+            </div>
+        </div>
+    </div>
+	
+	<div id="zoomModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+		<img id="zoomedImage" src="" class="max-w-full max-h-full rounded-lg shadow-lg border-4 border-white">
 	</div>
 	
-	<div id="fixed-config-btn">
-		<a class="btn-floating btn-large waves-effect waves-light teal modal-trigger" href="#config">
-			<i class="large material-icons">settings</i>
-		</a>
-	</div>
-	
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="pesquisa.js"></script>
 </body>
 </html>
