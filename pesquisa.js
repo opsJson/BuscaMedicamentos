@@ -282,7 +282,7 @@ function placeGuia(items) {
             <td class="px-6 py-4 whitespace-normal break-words text-sm text-gray-500">R$${e.PMC}</td>
             <td class="px-6 py-4 whitespace-normal break-words text-sm text-gray-500">
                 <button class="bula-btn bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600" 
-                        onclick="guiaMoreInfo('${e.id_apresentacao}', '${e.nome}', '${e.apresentacao}')">
+                        onclick="guiaMoreInfo('${e.id_apresentacao}', '${e.nome}', '${e.apresentacao}', '${e.principio_ativo}', '${e.fabricante}')">
                     <i class="fas fa-file-pdf mr-1"></i> Bula
                 </button>
             </td>
@@ -293,7 +293,7 @@ function placeGuia(items) {
     document.querySelector("[data-tab='guiatab'] span").textContent = guiaContainer.children.length;
 }
 
-async function guiaMoreInfo(id_apresentacao, nome, apresentacao) {
+async function guiaMoreInfo(id_apresentacao, nome, apresentacao, principio_ativo, fabricante) {
     const modal = document.getElementById("bulaModal");
     modal.classList.remove("hidden");
     
@@ -306,7 +306,7 @@ async function guiaMoreInfo(id_apresentacao, nome, apresentacao) {
         document.getElementById(field).textContent = "Carregando...";
     });
 	
-	fetch(`${URL}/bula?q=${nome} ${apresentacao}`, {
+	fetch(`${URL}/bula?q=${nome} ${apresentacao} ${principio_ativo} ${fabricante}`, {
 		headers: {Authorization: config.license}
 	})
 	.then(r => r.json())
