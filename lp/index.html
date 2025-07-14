@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca Medicamentos - Informações completas para farmácias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .price-card {
+            transition: all 0.3s ease;
+        }
+        .price-card:hover {
+            transform: scale(1.05);
+        }
+        .highlight {
+            position: relative;
+        }
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background-color: rgba(59, 130, 246, 0.3);
+            z-index: -1;
+        }
+        .search-box {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .distributor-logo {
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .distributor-logo:hover {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-pills text-blue-600 text-3xl mr-2"></i>
+                <h1 class="text-2xl font-bold text-blue-600">Busca<span class="text-blue-800">Medicamentos</span></h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#features" class="font-medium hover:text-blue-600 transition">Recursos</a>
+                <a href="#how-it-works" class="font-medium hover:text-blue-600 transition">Como Funciona</a>
+                <a href="#pricing" class="font-medium hover:text-blue-600 transition">Preços</a>
+                <a href="#testimonials" class="font-medium hover:text-blue-600 transition">Depoimentos</a>
+            </nav>
+            <button class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+            <div class="hidden md:block">
+                <a href="#pricing" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-medium transition shadow-md">Assinar Agora</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Todas as informações de medicamentos que sua farmácia precisa em um só lugar</h1>
+                <p class="text-xl mb-8 text-blue-100">Pesquise qualquer medicamento e obtenha dados completos do Guia Digital, iFood, distribuidoras e programas PBM por apenas R$19,90/mês.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="search-box bg-white rounded-lg p-1 flex w-full max-w-md">
+                        <input type="text" placeholder="Digite o nome de um medicamento..." class="flex-grow px-4 py-3 rounded-l-lg focus:outline-none text-gray-800">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-r-lg font-medium transition">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                    <a href="#pricing" class="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium text-center transition shadow-md whitespace-nowrap">
+                        Assinar Agora
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md">
+                    <div class="bg-gray-100 p-4 flex items-center">
+                        <div class="flex space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <div class="ml-4 text-sm text-gray-600">BuscaMedicamentos.com</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-pills text-blue-600 mr-2"></i>
+                            <h3 class="font-bold text-lg">Dipirona Monoidratada 500mg</h3>
+                        </div>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Laboratório:</span>
+                                <span class="font-medium">EMS</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Preço Fábrica:</span>
+                                <span class="font-medium">R$ 3,45</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">PMC:</span>
+                                <span class="font-medium">R$ 5,20</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">iFood desde:</span>
+                                <span class="font-medium text-green-600">R$ 4,15</span>
+                            </div>
+                            <div class="pt-2 mt-2 border-t border-gray-200">
+                                <button class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                                    <i class="fas fa-chevron-down mr-1"></i> Ver todas as informações
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By -->
+    <section class="py-10 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <p class="text-center text-gray-500 mb-8">Trusted by leading pharmacies across Brazil</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+                <img src="https://via.placeholder.com/120x40?text=Drogasil" alt="Drogasil" class="h-8 opacity-70 hover:opacity-100 transition">
+                <img src="https://via.placeholder.com/120x40?text=Pacheco" alt="Pacheco" class="h-8 opacity-70 hover:opacity-100 transition">
+                <img src="https://via.placeholder.com/120x40?text=DrogaRaia" alt="DrogaRaia" class="h-8 opacity-70 hover:opacity-100 transition">
+                <img src="https://via.placeholder.com/120x40?text=Panvel" alt="Panvel" class="h-8 opacity-70 hover:opacity-100 transition">
+                <img src="https://via.placeholder.com/120x40?text=Sao+Paulo" alt="São Paulo" class="h-8 opacity-70 hover:opacity-100 transition">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Todas as informações que sua farmácia precisa</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Acesso completo a dados de medicamentos de múltiplas fontes em uma única plataforma</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-4 text-blue-600">
+                        <i class="fas fa-book-medical text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Dados do Guia Digital</h3>
+                    <p class="text-gray-600">Nome da fórmula, laboratório, EAN, preço fábrica, PMC, intercambialidade, bula resumida por IA, bula completa em PDF e dados fiscais (NCM, CEST, registro MS).</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center mb-4 text-green-600">
+                        <i class="fas fa-shopping-bag text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Preços no iFood</h3>
+                    <p class="text-gray-600">Veja os preços praticados pelos concorrentes com nome da farmácia, organizados do mais barato para o mais caro para melhorar sua estratégia de preços.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center mb-4 text-purple-600">
+                        <i class="fas fa-warehouse text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Estoque em Distribuidoras</h3>
+                    <p class="text-gray-600">Consulte estoque e validade do produto nas principais distribuidoras (Profarma, Oriente, Divimed, Emis, Navarro, Stockfarma, Orgafarma, Distriam) por ordem de preço.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card bg-white rounded-xl p-6 shadow-md border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-yellow-100 rounded-lg flex items-center justify-center mb-4 text-yellow-600">
+                        <i class="fas fa-percentage text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3">Programas PBM</h3>
+                    <p class="text-gray-600">Informações sobre programas de desconto de laboratório, incluindo programa, autorizador, descontos, e preços unitário/total dos produtos da Farmácia Popular.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Como funciona o <span class="highlight">BuscaMedicamentos</span></h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Três passos simples para ter todas as informações que sua farmácia precisa</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="relative">
+                        <div class="absolute -left-8 -top-8 w-64 h-64 bg-blue-100 rounded-full opacity-30 z-0"></div>
+                        <div class="relative z-10 bg-white rounded-xl shadow-xl overflow-hidden">
+                            <img src="https://via.placeholder.com/600x400?text=Dashboard+BuscaMedicamentos" alt="Dashboard" class="w-full">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <div class="space-y-8">
+                        <!-- Step 1 -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-6">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white font-bold text-xl">1</div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Pesquise o medicamento</h3>
+                                <p class="text-gray-600">Digite o nome do medicamento que deseja consultar em nossa barra de busca intuitiva.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-6">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white font-bold text-xl">2</div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Analise os resultados</h3>
+                                <p class="text-gray-600">Veja todas as informações organizadas em abas fáceis de navegar: dados básicos, preços, distribuidoras e programas.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-6">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white font-bold text-xl">3</div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Tome decisões inteligentes</h3>
+                                <p class="text-gray-600">Use os dados para definir preços competitivos, escolher melhores fornecedores e aproveitar programas de desconto.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Distributors Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Integração com as principais <span class="highlight">distribuidoras</span></h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Verifique estoque e preços diretamente com os maiores distribuidores do país</p>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Profarma" alt="Profarma" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Oriente" alt="Oriente" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Divimed" alt="Divimed" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Emis" alt="Emis" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Navarro" alt="Navarro" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Stockfarma" alt="Stockfarma" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Orgafarma" alt="Orgafarma" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Distriam" alt="Distriam" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Panarello" alt="Panarello" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Alliance" alt="Alliance" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Dimed" alt="Dimed" class="distributor-logo max-h-12">
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <img src="https://via.placeholder.com/150x60?text=Outras" alt="Outras" class="distributor-logo max-h-12">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Planos <span class="highlight">simples</span> e acessíveis</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Todas as informações que sua farmácia precisa por menos de R$0,70 por dia</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                <div class="price-card bg-white rounded-xl p-8 shadow-lg border-2 border-blue-500 transform transition">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold mb-2">Plano Mensal</h3>
+                        <div class="flex justify-center items-baseline">
+                            <span class="text-5xl font-bold text-blue-600">R$19,90</span>
+                            <span class="text-gray-500 ml-1">/mês</span>
+                        </div>
+                        <p class="text-gray-600 mt-2">Cobrança mensal recorrente</p>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Acesso completo a todas as informações</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Atualizações em tempo real</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Suporte por e-mail</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Cancelamento a qualquer momento</span>
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <button onclick="checkoutMensal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-md">
+							Assinar Plano Mensal
+						</button>
+                    </div>
+                </div>
+                
+                <div class="price-card bg-white rounded-xl p-8 shadow-lg border-2 border-blue-500 transform transition">
+                    <div class="text-center mb-6">
+                        <div class="flex justify-center">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">MAIS ECONÔMICO</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Plano Anual</h3>
+                        <div class="flex justify-center items-baseline">
+                            <span class="text-5xl font-bold text-blue-600">R$199,00</span>
+                            <span class="text-gray-500 ml-1">/ano</span>
+                        </div>
+                        <p class="text-gray-600 mt-2">Economize R$39,80 (2 meses grátis)</p>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Todos os benefícios do plano mensal</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Prioridade no suporte</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Acesso antecipado a novas funcionalidades</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Relatórios mensais personalizados</span>
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <button onclick="checkoutAnual()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-md">
+							Assinar Plano Anual
+						</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 text-gray-600">
+                <p>Todos os planos incluem acesso ilimitado a todas as funcionalidades sem restrições.</p>
+                <p>Pagamento seguro com cartão de crédito ou boleto bancário.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">O que dizem nossos <span class="highlight">clientes</span></h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Farmácias que já usam o BuscaMedicamentos para tomar decisões mais inteligentes</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold mr-4">FD</div>
+                        <div>
+                            <h4 class="font-bold">Fernanda Dias</h4>
+                            <p class="text-gray-600 text-sm">Farmácia Dias, Belo Horizonte</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"O BuscaMedicamentos revolucionou nossa gestão de preços. Agora conseguimos competir com as grandes redes porque sabemos exatamente qual preço praticar e onde comprar mais barato."</p>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold mr-4">CS</div>
+                        <div>
+                            <h4 class="font-bold">Carlos Silva</h4>
+                            <p class="text-gray-600 text-sm">Drogaria Silva, São Paulo</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"A funcionalidade de ver estoque nas distribuidoras nos salvou várias vezes. Antes perdíamos vendas por não saber onde tinha o produto disponível. Agora resolvemos isso em segundos."</p>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold mr-4">AM</div>
+                        <div>
+                            <h4 class="font-bold">Ana Martins</h4>
+                            <p class="text-gray-600 text-sm">Farmácia Popular, Rio de Janeiro</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"As informações dos programas PBM são incríveis. Conseguimos aumentar em 30% as vendas de medicamentos com desconto porque agora sabemos exatamente quais produtos estão em qual programa."</p>
+                    <div class="mt-4 flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-blue-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Pronto para transformar a gestão da sua farmácia?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Comece hoje mesmo e tenha acesso a todas as informações de medicamentos que sua farmácia precisa por apenas R$19,90/mês.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#pricing" class="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-lg font-bold text-lg transition shadow-lg">
+                    Assinar Agora
+                </a>
+                <a href="#" class="bg-transparent border-2 border-white hover:bg-blue-700 px-8 py-4 rounded-lg font-bold text-lg transition">
+                    Fale Conosco
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Perguntas <span class="highlight">frequentes</span></h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Tire suas dúvidas sobre o BuscaMedicamentos</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- FAQ 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-gray-50 focus:outline-none flex justify-between items-center">
+                        <h3 class="font-bold text-lg">Como são atualizados os dados dos medicamentos?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">Nossos dados são atualizados diariamente diretamente das fontes oficiais. O Guia Digital é atualizado conforme novas portarias, os preços do iFood são verificados várias vezes ao dia, e o estoque das distribuidoras é atualizado em tempo real através de suas APIs.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ 2 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-gray-50 focus:outline-none flex justify-between items-center">
+                        <h3 class="font-bold text-lg">Posso acessar de vários dispositivos?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">Sim, sua assinatura permite o acesso simultâneo de até 3 dispositivos diferentes. Você pode usar no computador da farmácia, no seu celular e tablet sem problemas.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ 3 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-gray-50 focus:outline-none flex justify-between items-center">
+                        <h3 class="font-bold text-lg">E se eu quiser cancelar minha assinatura?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">O cancelamento pode ser feito a qualquer momento sem multa. No plano mensal, seu acesso permanece até o final do período pago. No plano anual, fazemos o reembolso proporcional dos meses não utilizados.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ 4 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-gray-50 focus:outline-none flex justify-between items-center">
+                        <h3 class="font-bold text-lg">Vocês oferecem suporte técnico?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">Sim, oferecemos suporte por e-mail com resposta em até 24 horas úteis. Para clientes do plano anual, oferecemos também suporte por WhatsApp com resposta mais rápida.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <!-- Column 1 -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-pills text-blue-400 text-3xl mr-2"></i>
+                        <h3 class="text-2xl font-bold">Busca<span class="text-blue-300">Medicamentos</span></h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">A solução completa para gestão de medicamentos em farmácias e drogarias.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Links Rápidos</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition">Recursos</a></li>
+                        <li><a href="#how-it-works" class="text-gray-400 hover:text-white transition">Como Funciona</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition">Preços</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition">Depoimentos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Suporte</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Central de Ajuda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contato</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Política de Privacidade</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Termos de Uso</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Contato</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3"></i>
+                            <span>contato@buscamedicamentos.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3"></i>
+                            <span>(11) 1234-5678</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3"></i>
+                            <span>Av. Paulista, 1000<br>São Paulo - SP</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 BuscaMedicamentos. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+	<script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mobile menu toggle (would need more implementation)
+        document.querySelector('.md\\:hidden').addEventListener('click', () => {
+            // This would toggle a mobile menu in a real implementation
+            alert('Mobile menu would open here in a full implementation');
+        });
+		
+		const stripe = Stripe("pk_live_51OSTM4F5MjdzbeLWjQWr28r8cltFJRQuDsKngE3oDmgWlDX0Gw1Ig23qNijqqJ0kKPDTZwLuht277hDQbIXlOzL6005FunXHOX");
+
+		function checkoutMensal() {
+			stripe.redirectToCheckout({
+				lineItems: [{ price: 'price_1R3HUoF5MjdzbeLWxdAT0HxX', quantity: 1 }],
+				mode: 'subscription',
+				successUrl: 'https://seusite.com/sucesso',
+				cancelUrl: 'https://seusite.com/cancelado',
+			});
+		}
+
+		function checkoutAnual() {
+			stripe.redirectToCheckout({
+				lineItems: [{ price: 'price_1R3HUoF5MjdzbeLWxdAT0HxX', quantity: 1 }],
+				mode: 'subscription',
+				successUrl: 'https://seusite.com/sucesso',
+				cancelUrl: 'https://seusite.com/cancelado',
+			});
+		}
+    </script>
+</body>
+</html>
