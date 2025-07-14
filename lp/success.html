@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca Medicamentos - Informações completas para farmácias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .price-card {
+            transition: all 0.3s ease;
+        }
+        .price-card:hover {
+            transform: scale(1.05);
+        }
+        .highlight {
+            position: relative;
+        }
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background-color: rgba(59, 130, 246, 0.3);
+            z-index: -1;
+        }
+        .search-box {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .distributor-logo {
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .distributor-logo:hover {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+<!-- Success Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-2xl mx-auto">
+                <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-check-circle text-green-500 text-5xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold mb-6">Assinatura concluída com sucesso!</h2>
+                <p class="text-xl mb-8 text-gray-600">
+                    Obrigado por assinar o BuscaMedicamentos. Você receberá um e-mail em instantes com:
+                </p>
+                <div class="bg-blue-50 rounded-xl p-6 mb-8 text-left">
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-key text-blue-500 mt-1 mr-3"></i>
+                            <span>Sua chave de licença exclusiva</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-book-open text-blue-500 mt-1 mr-3"></i>
+                            <span>Instruções detalhadas para ativação</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-sign-in-alt text-blue-500 mt-1 mr-3"></i>
+                            <span>Link de acesso à plataforma</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mb-8">
+                    <p class="text-gray-600 mb-4">
+                        Caso não receba o e-mail em até 15 minutos, verifique sua pasta de spam ou entre em contato conosco.
+                    </p>
+                    <a href="mailto:suporte@buscamedicamentos.com" class="text-blue-600 hover:text-blue-800 font-medium">
+                        <i class="fas fa-envelope mr-2"></i>suporte@buscamedicamentos.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

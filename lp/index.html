@@ -613,19 +613,19 @@
 
 		function checkoutMensal() {
 			stripe.redirectToCheckout({
-				lineItems: [{ price: 'price_1R3HUoF5MjdzbeLWxdAT0HxX', quantity: 1 }],
-				mode: 'subscription',
-				successUrl: 'https://buscamedicamentos.com.br/',
-				cancelUrl: 'https://buscamedicamentos.com.br/',
+				lineItems: [{ price: "price_1R3HUoF5MjdzbeLWxdAT0HxX", quantity: 1 }],
+				mode: "subscription",
+				successUrl: "https://buscamedicamentos.com.br/success",
+				cancelUrl: "https://buscamedicamentos.com.br/error",
 			});
 		}
 
 		function checkoutAnual() {
 			stripe.redirectToCheckout({
-				lineItems: [{ price: 'price_1R3HUoF5MjdzbeLWxdAT0HxX', quantity: 1 }],
-				mode: 'subscription',
-				successUrl: 'https://buscamedicamentos.com.br/',
-				cancelUrl: 'https://buscamedicamentos.com.br/',
+				lineItems: [{ price: "price_1RkqgeF5MjdzbeLWAwZeBoh0", quantity: 1 }],
+				mode: "subscription",
+				successUrl: "https://buscamedicamentos.com.br/success",
+				cancelUrl: "https://buscamedicamentos.com.br/error",
 			});
 		}
     </script>
