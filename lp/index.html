@@ -354,9 +354,9 @@
                         </li>
                     </ul>
                     <div class="text-center">
-                        <button onclick="checkoutMensal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-md">
+                        <a href="https://buy.stripe.com/aFa28r0oh60reBLeGWdAk0a" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-md">
 							Assinar Plano Mensal
-						</button>
+						</a>
                     </div>
                 </div>
                 
@@ -387,9 +387,9 @@
                         </li>
                     </ul>
                     <div class="text-center">
-                        <button onclick="checkoutAnual()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-md">
+                        <a href="https://buy.stripe.com/5kQbJ13At9cDbpz56mdAk0b" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-md">
 							Assinar Plano Anual
-						</button>
+						</a>
                     </div>
                 </div>
             </div>
@@ -636,26 +636,6 @@
             // This would toggle a mobile menu in a real implementation
             alert('Mobile menu would open here in a full implementation');
         });
-		
-		const stripe = Stripe("pk_live_51OSTM4F5MjdzbeLWjQWr28r8cltFJRQuDsKngE3oDmgWlDX0Gw1Ig23qNijqqJ0kKPDTZwLuht277hDQbIXlOzL6005FunXHOX");
-
-		function checkoutMensal() {
-			stripe.redirectToCheckout({
-				lineItems: [{ price: "price_1R3HUoF5MjdzbeLWxdAT0HxX", quantity: 1 }],
-				mode: "subscription",
-				successUrl: "https://buscamedicamentos.com.br/lp/success",
-				cancelUrl: "https://buscamedicamentos.com.br/lp/error",
-			});
-		}
-
-		function checkoutAnual() {
-			stripe.redirectToCheckout({
-				lineItems: [{ price: "price_1RkqgeF5MjdzbeLWAwZeBoh0", quantity: 1 }],
-				mode: "subscription",
-				successUrl: "https://buscamedicamentos.com.br/lp/success",
-				cancelUrl: "https://buscamedicamentos.com.br/lp/error",
-			});
-		}
     </script>
 </body>
 </html>
