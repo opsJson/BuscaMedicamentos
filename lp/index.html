@@ -78,12 +78,6 @@
                 <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Todas as informações de medicamentos que sua farmácia precisa em um só lugar</h1>
                 <p class="text-xl mb-8 text-blue-100">Pesquise qualquer medicamento e obtenha dados completos do Guia Digital, iFood, distribuidoras e programas PBM por apenas R$19,99/mês.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <div class="search-box bg-white rounded-lg p-1 flex w-full max-w-md">
-                        <input type="text" placeholder="Digite o nome de um medicamento..." class="flex-grow px-4 py-3 rounded-l-lg focus:outline-none text-gray-800">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-r-lg font-medium transition">
-                            <i class="fas fa-search"></i> Buscar
-                        </button>
-                    </div>
                     <a href="#pricing" class="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium text-center transition shadow-md whitespace-nowrap">
                         Assinar Agora
                     </a>
@@ -91,43 +85,95 @@
             </div>
             <div class="md:w-1/2 flex justify-center">
                 <div class="relative bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md">
-                    <div class="bg-gray-100 p-4 flex items-center">
-                        <div class="flex space-x-2">
-                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                        </div>
-                        <div class="ml-4 text-sm text-gray-600">BuscaMedicamentos.com</div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-pills text-blue-600 mr-2"></i>
-                            <h3 class="font-bold text-lg">Dipirona Monoidratada 500mg</h3>
-                        </div>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Laboratório:</span>
-                                <span class="font-medium">EMS</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Preço Fábrica:</span>
-                                <span class="font-medium">R$ 3,45</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">PMC:</span>
-                                <span class="font-medium">R$ 5,20</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">iFood desde:</span>
-                                <span class="font-medium text-green-600">R$ 4,15</span>
-                            </div>
-                            <div class="pt-2 mt-2 border-t border-gray-200">
-                                <button class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
-                                    <i class="fas fa-chevron-down mr-1"></i> Ver todas as informações
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+<div class="relative bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md">
+  <!-- cabeçalho “janela” -->
+  <div class="bg-gray-100 px-4 py-3 flex items-center">
+    <div class="flex space-x-2">
+      <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+      <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+      <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+    </div>
+    <span class="ml-3 text-sm text-gray-600 font-medium">BuscaMedicamentos.com</span>
+  </div>
+
+  <!-- corpo do painel -->
+  <div class="p-6 space-y-4">
+
+    <!-- campo de busca -->
+    <div class="mb-4">
+      <div class="relative">
+        <input
+          type="text"
+          value="nimesulida"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
+		  disabled="true"
+        />
+        <div class="absolute right-3 top-3 text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- tabs -->
+    <div class="flex border-b border-gray-200 mb-4 space-x-1">
+      <button
+        class="flex items-center px-4 py-2 text-sm font-medium text-black hover:bg-gray-50 transition">
+        <i class="fas fa-book mr-1"></i>
+        Guia
+        <span class="ml-2 bg-blue-600 text-white rounded-full px-1 text-xs">71</span>
+      </button>
+      <button
+        class="flex items-center px-4 py-2 text-sm font-medium text-black hover:bg-gray-50 transition">
+        <i class="fas fa-utensils mr-1"></i>
+        iFood
+        <span class="ml-2 bg-blue-600 text-white rounded-full px-1 text-xs">98</span>
+      </button>
+      <button
+        class="flex items-center px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600 transition">
+        <i class="fas fa-truck mr-1"></i>
+        Distribuidoras
+        <span class="ml-2 bg-white text-blue-600 rounded-full px-1 text-xs">115</span>
+      </button>
+      <button
+        class="flex items-center px-4 py-2 text-sm font-medium text-black hover:bg-gray-50 transition">
+        <i class="fas fa-file-invoice mr-1"></i>
+        PBM
+        <span class="ml-2 bg-blue-600 text-white rounded-full px-1 text-xs">1</span>
+      </button>
+    </div>
+
+    <!-- lista de resultados -->
+    <div class="space-y-2 text-sm text-black">
+      <!-- linha 1 -->
+      <div class="flex justify-between items-center border-b border-gray-200 pb-2">
+        <div class="font-medium truncate w-36">NIMESULIDA 100MG</div>
+        <div class="w-20 text-center">Orgafarma</div>
+        <div class="w-12 text-center">ALTO</div>
+        <div class="w-16 text-right font-bold text-green-600">R$1,15</div>
+      </div>
+      <!-- linha 2 -->
+      <div class="flex justify-between items-center border-b border-gray-200 pb-2">
+        <div class="font-medium truncate w-36">NIMESULIDA 100MG</div>
+        <div class="w-20 text-center">Oriente</div>
+        <div class="w-12 text-center">ALTO</div>
+        <div class="w-16 text-right font-bold text-green-600">R$1,19</div>
+      </div>
+      <!-- linha 3 -->
+      <div class="flex justify-between items-center">
+        <div class="font-medium truncate w-36">NIMESULIDA 100MG</div>
+        <div class="w-20 text-center">Profarma</div>
+        <div class="w-12 text-center">103</div>
+        <div class="w-16 text-right font-bold text-green-600">R$2,13</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
                 </div>
             </div>
         </div>
@@ -247,36 +293,36 @@
 				<p class="text-xl text-gray-600 max-w-3xl mx-auto">Verifique estoque e preços diretamente com os maiores distribuidores do país</p>
 			</div>
 			
-			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/distriam.png" alt="Distriam" class="distributor-logo max-h-12">
+					<img src="./imgs/distriam.png" alt="Distriam" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/distrimed.png" alt="Distrimed" class="distributor-logo max-h-12">
+					<img src="./imgs/distrimed.png" alt="Distrimed" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/divimed.png" alt="Divimed" class="distributor-logo max-h-12">
+					<img src="./imgs/divimed.png" alt="Divimed" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/drogacenter.png" alt="DrogaCenter" class="distributor-logo max-h-12">
+					<img src="./imgs/profarma.png" alt="Profarma" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/emis.png" alt="Emis" class="distributor-logo max-h-12">
+					<img src="./imgs/emis.png" alt="Emis" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/navarro.png" alt="Navarro" class="distributor-logo max-h-12">
+					<img src="./imgs/navarro.png" alt="Navarro" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/orgafarma.png" alt="Orgafarma" class="distributor-logo max-h-12">
+					<img src="./imgs/orgafarma.png" alt="Orgafarma" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/oriente.png" alt="Oriente" class="distributor-logo max-h-12">
+					<img src="./imgs/oriente.png" alt="Oriente" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/profarma.png" alt="Profarma" class="distributor-logo max-h-12">
+					<img src="./imgs/drogacenter.png" alt="DrogaCenter" class="distributor-logo max-h-13">
 				</div>
 				<div class="flex justify-center items-center p-4">
-					<img src="./imgs/stock.png" alt="Stockfarma" class="distributor-logo max-h-12">
+					<img src="./imgs/stock.png" alt="Stockfarma" class="distributor-logo max-h-13">
 				</div>
 			</div>
 		</div>
@@ -443,9 +489,6 @@
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <a href="#pricing" class="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-lg font-bold text-lg transition shadow-lg">
                     Assinar Agora
-                </a>
-                <a href="#" class="bg-transparent border-2 border-white hover:bg-blue-700 px-8 py-4 rounded-lg font-bold text-lg transition">
-                    Fale Conosco
                 </a>
             </div>
         </div>
