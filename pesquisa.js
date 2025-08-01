@@ -1,4 +1,4 @@
-const URL = "https://cbr3emmw65uv2uzbjcfknv4iny0nuiul.lambda-url.sa-east-1.on.aws";
+const URL = "https://buscamedicamentosback-production.up.railway.app";
 let config;
 let lastQuery;
 
